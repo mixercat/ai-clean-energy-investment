@@ -175,7 +175,7 @@ def latest_forecast(df, results):
         point = base * np.exp(y)
         r = np.log(P["actual"] / P[best])
         out.append({"from_week": last.date(), "horizon_weeks": h,
-                    "target_week": (last + pd.Timedelta(weeks=h)).date(), "model": best,
+                    "target_week": (last + pd.DateOffset(weeks=int(h))).date(), "model": best,
                     "last_price": round(base, 1), "forecast": round(point, 1),
                     "low_80": round(point * np.exp(r.quantile(C.INTERVAL[0])), 1),
                     "high_80": round(point * np.exp(r.quantile(C.INTERVAL[1])), 1)})

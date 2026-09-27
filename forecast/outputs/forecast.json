@@ -1,0 +1,254 @@
+{
+  "generated_at": "2026-09-27T15:36:56",
+  "products": [
+    {
+      "product_id": "W14021",
+      "name": "หมอนทอง",
+      "unit": "บาท/กก.",
+      "market": "ราคาขายส่ง ตลาดกรุงเทพฯ (กรมการค้าภายใน)",
+      "latest": {
+        "week_end": "2026-09-27",
+        "price_mid": 110.0,
+        "price_min": 100.0,
+        "price_max": 120.0,
+        "week_of_season": 23,
+        "days_old": 0,
+        "in_season": true
+      },
+      "price_range": [
+        {
+          "horizon_weeks": 1,
+          "target_week": "2026-10-04",
+          "expected": 110.0,
+          "low_80": 100.8,
+          "high_80": 119.2
+        },
+        {
+          "horizon_weeks": 2,
+          "target_week": "2026-10-11",
+          "expected": 110.0,
+          "low_80": 96.0,
+          "high_80": 124.7
+        },
+        {
+          "horizon_weeks": 4,
+          "target_week": "2026-10-25",
+          "expected": 110.0,
+          "low_80": 89.0,
+          "high_80": 137.5
+        }
+      ],
+      "drop_probability": {
+        "window_weeks": 1,
+        "drop_baht": 5,
+        "threshold_price": 105.0,
+        "probability": 0.117,
+        "level": "ปานกลาง",
+        "season_phase": "ปลายฤดู",
+        "overall_rate": 0.153,
+        "method": "seasonal_rate",
+        "message_th": "ในอดีต ช่วงปลายฤดู ราคาลดลงถึง 105 บาท/กก. หรือต่ำกว่า ภายใน 1 สัปดาห์ ประมาณ 12% ของครั้ง (โอกาสปานกลาง) — ราคาอาจทรงตัวหรือลดเล็กน้อย ตัดสินใจตามความแก่ของผลเป็นหลัก",
+        "caveat_th": "เป็นสถิติจากอดีต ไม่ใช่คำทำนายที่แน่นอน ต้องตรวจความแก่ของผลก่อนตัดเสมอ"
+      },
+      "same_week_previous_years": {
+        "iso_week": 39,
+        "years": [
+          {
+            "year": 2021,
+            "price": 120.0
+          },
+          {
+            "year": 2023,
+            "price": 140.0
+          },
+          {
+            "year": 2024,
+            "price": 120.0
+          },
+          {
+            "year": 2025,
+            "price": 135.0
+          }
+        ],
+        "average": 128.8
+      },
+      "vs_previous_years_pct": -14.6,
+      "recent_weeks": [
+        {
+          "week_end": "2026-07-12",
+          "price_mid": 110.0
+        },
+        {
+          "week_end": "2026-07-19",
+          "price_mid": 90.0
+        },
+        {
+          "week_end": "2026-07-26",
+          "price_mid": 87.0
+        },
+        {
+          "week_end": "2026-08-02",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-08-09",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-08-16",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-08-23",
+          "price_mid": 90.0
+        },
+        {
+          "week_end": "2026-08-30",
+          "price_mid": 90.0
+        },
+        {
+          "week_end": "2026-09-06",
+          "price_mid": 90.0
+        },
+        {
+          "week_end": "2026-09-13",
+          "price_mid": 110.0
+        },
+        {
+          "week_end": "2026-09-20",
+          "price_mid": 110.0
+        },
+        {
+          "week_end": "2026-09-27",
+          "price_mid": 110.0
+        }
+      ]
+    },
+    {
+      "product_id": "W14020",
+      "name": "ชะนี",
+      "unit": "บาท/กก.",
+      "market": "ราคาขายส่ง ตลาดกรุงเทพฯ (กรมการค้าภายใน)",
+      "latest": {
+        "week_end": "2026-08-09",
+        "price_mid": 80.0,
+        "price_min": 75.0,
+        "price_max": 85.0,
+        "week_of_season": 14,
+        "days_old": 49,
+        "in_season": false
+      },
+      "price_range": [
+        {
+          "horizon_weeks": 1,
+          "target_week": "2026-08-16",
+          "expected": 80.0,
+          "low_80": 73.4,
+          "high_80": 86.1
+        },
+        {
+          "horizon_weeks": 2,
+          "target_week": "2026-08-23",
+          "expected": 80.0,
+          "low_80": 70.6,
+          "high_80": 91.9
+        }
+      ],
+      "drop_probability": {
+        "window_weeks": 1,
+        "drop_baht": 5,
+        "threshold_price": 75.0,
+        "probability": 0.115,
+        "level": "ปานกลาง",
+        "season_phase": "กลางฤดู",
+        "overall_rate": 0.132,
+        "method": "seasonal_rate",
+        "message_th": "ในอดีต ช่วงกลางฤดู ราคาลดลงถึง 75 บาท/กก. หรือต่ำกว่า ภายใน 1 สัปดาห์ ประมาณ 12% ของครั้ง (โอกาสปานกลาง) — ราคาอาจทรงตัวหรือลดเล็กน้อย ตัดสินใจตามความแก่ของผลเป็นหลัก",
+        "caveat_th": "เป็นสถิติจากอดีต ไม่ใช่คำทำนายที่แน่นอน ต้องตรวจความแก่ของผลก่อนตัดเสมอ"
+      },
+      "same_week_previous_years": {
+        "iso_week": 32,
+        "years": [
+          {
+            "year": 2021,
+            "price": 85.0
+          },
+          {
+            "year": 2022,
+            "price": 90.0
+          },
+          {
+            "year": 2023,
+            "price": 110.0
+          },
+          {
+            "year": 2024,
+            "price": 105.0
+          },
+          {
+            "year": 2025,
+            "price": 85.0
+          }
+        ],
+        "average": 95.0
+      },
+      "vs_previous_years_pct": -15.8,
+      "recent_weeks": [
+        {
+          "week_end": "2026-05-24",
+          "price_mid": 95.0
+        },
+        {
+          "week_end": "2026-05-31",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-06-07",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-06-14",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-06-21",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-06-28",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-07-05",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-07-12",
+          "price_mid": 85.0
+        },
+        {
+          "week_end": "2026-07-19",
+          "price_mid": 80.0
+        },
+        {
+          "week_end": "2026-07-26",
+          "price_mid": 80.0
+        },
+        {
+          "week_end": "2026-08-02",
+          "price_mid": 80.0
+        },
+        {
+          "week_end": "2026-08-09",
+          "price_mid": 80.0
+        }
+      ],
+      "warning_th": "ราคาล่าสุดเก่า 49 วัน น่าจะอยู่นอกฤดูของชะนี ตัวเลขพยากรณ์ใช้อ้างอิงไม่ได้จนกว่าฤดูใหม่จะเริ่ม"
+    }
+  ],
+  "notes_th": [
+    "ราคาในไฟล์นี้เป็นราคาขายส่งตลาดกรุงเทพฯ ไม่ใช่ราคาหน้าสวน/หน้าล้ง ราคาหน้าล้งเกรด AB อาจสูงหรือต่ำกว่านี้ ใช้ดูทิศทางตลาดเป็นหลัก",
+    "ช่วงราคา 80% ทดสอบย้อนหลังแล้วครอบคลุมราคาจริงประมาณ 81% ของสัปดาห์",
+    "โอกาสราคาลงมาจากสถิติตามช่วงของฤดู โมเดล ML ที่ทดสอบไม่ชนะวิธีนี้อย่างสม่ำเสมอ"
+  ]
+}

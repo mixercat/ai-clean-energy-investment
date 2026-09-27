@@ -39,7 +39,7 @@ import config as C
 warnings.filterwarnings("ignore")
 
 DROP_BAHT = 5        # ลดลงอย่างน้อยกี่บาท/กก. ถึงนับว่า "ราคาลง"
-WINDOW = 2           # ภายในกี่สัปดาห์ (ต้องมีใน horizons ของ config)
+WINDOW = 1           # ภายในกี่สัปดาห์ (ต้องมีใน horizons ของ config)
 RECENT_FROM = 2017   # แบบ "ข้อมูลช่วงหลัง" ใช้ฤดูที่เริ่มตั้งแต่ปีนี้
 TEST_FROM = 2019     # ทดสอบกับฤดูที่เริ่มตั้งแต่ปีนี้ (ทั้งสองแบบใช้ชุดเดียวกัน)
 

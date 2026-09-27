@@ -1,0 +1,8 @@
+pandas>=2.0
+numpy
+scikit-learn>=1.3
+requests
+holidays>=0.40
+openpyxl
+matplotlib
+tabulate

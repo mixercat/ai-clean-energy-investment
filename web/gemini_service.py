@@ -1,65 +1,62 @@
+import google.generativeai as genai
 import os
 import json
-from google import genai
-from google.genai import types
-from PIL import Image
+import time
 
 class GeminiService:
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY")
-        self.client = genai.Client(api_key=api_key)
-        # กำหนดโมเดลเป็น gemini-3.8-flash ตามที่ API แนะนำ
-        self.model_name = "gemini-3.8-flash"
+        if not api_key:
+            raise ValueError("ยังไม่ได้ระบุ GEMINI_API_KEY ในไฟล์ .env")
+        
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-3.8-flash')
 
-    def extract_receipt(self, image: Image.Image) -> dict:
-        """สแกนใบรับซื้อทุเรียนแล้วคืนค่าเป็น JSON"""
+    def extract_receipt(self, image):
+        # แปลงโหมดภาพ RGBA/P เป็น RGB ป้องกัน Error เรื่อง JPEG format
+        if image.mode in ("RGBA", "P"):
+            image = image.convert("RGB")
+            
         prompt = """
-        วิเคราะห์ภาพใบเสร็จรับซื้อทุเรียนนี้ แล้วสกัดข้อมูลเป็น JSON ตามรูปแบบต่อไปนี้:
+        คุณคือระบบ OCR อ่านใบชั่ง/บิลขายทุเรียน 
+        โปรดอ่านข้อมูลจากรูปภาพแล้วตอบกลับเป็น JSON รูปแบบนี้เท่านั้น (ไม่ต้องมีคำอธิบายเพิ่มเติม):
         {
+            "buyer_name": "ชื่อล้งหรือผู้ซื้อ",
             "date": "YYYY-MM-DD",
-            "buyer_name": "ชื่อล้งหรือผู้รับซื้อ",
-            "items": [
-                {
-                    "grade": "เกรด เช่น AB, C, หรือ ตกไซซ์",
-                    "weight_kg": 0.0,
-                    "price_per_kg": 0.0,
-                    "total_amount": 0.0
-                }
-            ],
             "grand_total": 0.0
         }
-        ตอบเฉพาะ JSON ล้วนๆ ไม่ต้องมี markdown หรือคำอธิบายเพิ่มเติม
         """
-        response = self.client.models.generate_content(
-            model=self.model_name,
-            contents=[image, prompt],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json"
-            )
-        )
         
-        clean_text = response.text.strip()
-        if clean_text.startswith("```json"):
-            clean_text = clean_text[7:]
-        if clean_text.startswith("```"):
-            clean_text = clean_text[3:]
-        if clean_text.endswith("```"):
-            clean_text = clean_text[:-3]
-            
-        return json.loads(clean_text.strip())
+        last_error = None
+        # วนลูปพยายามส่งใหม่สูงสุด 5 ครั้ง
+        for attempt in range(5):
+            try:
+                response = self.model.generate_content([image, prompt])
+                text = response.text.strip()
+                
+                # ทำความสะอาดสตริง JSON ก่อน parse
+                if "```json" in text:
+                    text = text.split("```json")[1].split("```")[0].strip()
+                elif "```" in text:
+                    text = text.split("```")[1].split("```")[0].strip()
+                    
+                return json.loads(text)
+            except Exception as e:
+                last_error = e
+                # หากเจอ Error 429 (Quota/Rate Limit) ให้รอ 3 วินาทีแล้วลองส่งใหม่
+                if "429" in str(e) or "quota" in str(e).lower():
+                    time.sleep(3)
+                    continue
+                time.sleep(1.5)
+                
+        raise last_error
 
-    def ask_assistant(self, user_question: str, farm_context: str) -> str:
-        """ถาม-ตอบข้อสงสัยการขายทุเรียน"""
-        prompt = f"""
-        คุณคือที่ปรึกษาชาวสวนทุเรียนมืออาชีพ
-        ข้อมูลสวนและสถานการณ์ปัจจุบัน:
+    def ask_assistant(self, user_question, farm_context):
+        prompt = f"""คุณคือผู้ช่วย AI บริหารจัดการสวนทุเรียน 
+        ข้อมูลบริบทของสวน:
         {farm_context}
 
-        คำถามของชาวสวน:
-        {user_question}
+        คำถามของผู้ใช้: {user_question}
         """
-        response = self.client.models.generate_content(
-            model=self.model_name,
-            contents=prompt
-        )
+        response = self.model.generate_content(prompt)
         return response.text

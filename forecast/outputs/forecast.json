@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T20:29:42",
+  "generated_at": "2026-09-28T23:24:33",
   "products": [
     {
       "product_id": "W14021",
@@ -122,6 +122,2732 @@
           "week_end": "2026-09-27",
           "price_mid": 110.0
         }
+      ],
+      "history": [
+        {
+          "week_end": "2010-04-04",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-04-11",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-04-18",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-04-25",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-05-02",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-05-09",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-05-16",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-05-23",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-05-30",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-06-06",
+          "price_mid": 44.5,
+          "price_min": 42.0,
+          "price_max": 47.0
+        },
+        {
+          "week_end": "2010-06-13",
+          "price_mid": 44.5,
+          "price_min": 41.6,
+          "price_max": 47.4
+        },
+        {
+          "week_end": "2010-06-20",
+          "price_mid": 46.9,
+          "price_min": 44.2,
+          "price_max": 49.5
+        },
+        {
+          "week_end": "2010-06-27",
+          "price_mid": 55.0,
+          "price_min": 50.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2010-07-04",
+          "price_mid": 62.5,
+          "price_min": 60.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2010-07-11",
+          "price_mid": 62.5,
+          "price_min": 60.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2010-07-18",
+          "price_mid": 62.5,
+          "price_min": 60.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2010-07-25",
+          "price_mid": 62.5,
+          "price_min": 60.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2010-08-01",
+          "price_mid": 62.5,
+          "price_min": 60.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2010-08-08",
+          "price_mid": 58.5,
+          "price_min": 56.0,
+          "price_max": 61.0
+        },
+        {
+          "week_end": "2010-08-15",
+          "price_mid": 51.8,
+          "price_min": 50.3,
+          "price_max": 53.3
+        },
+        {
+          "week_end": "2010-08-22",
+          "price_mid": 46.4,
+          "price_min": 44.8,
+          "price_max": 48.0
+        },
+        {
+          "week_end": "2010-08-29",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-09-05",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2010-09-12",
+          "price_mid": 40.5,
+          "price_min": 38.0,
+          "price_max": 43.0
+        },
+        {
+          "week_end": "2010-09-19",
+          "price_mid": 37.5,
+          "price_min": 35.0,
+          "price_max": 40.0
+        },
+        {
+          "week_end": "2010-09-26",
+          "price_mid": 37.5,
+          "price_min": 35.0,
+          "price_max": 40.0
+        },
+        {
+          "week_end": "2010-10-03",
+          "price_mid": 37.5,
+          "price_min": 35.0,
+          "price_max": 40.0
+        },
+        {
+          "week_end": "2010-10-10",
+          "price_mid": 41.5,
+          "price_min": 39.0,
+          "price_max": 44.0
+        },
+        {
+          "week_end": "2010-10-17",
+          "price_mid": 42.5,
+          "price_min": 40.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2011-05-01",
+          "price_mid": 37.6,
+          "price_min": 33.0,
+          "price_max": 42.2
+        },
+        {
+          "week_end": "2011-05-08",
+          "price_mid": 34.0,
+          "price_min": 30.0,
+          "price_max": 38.0
+        },
+        {
+          "week_end": "2011-05-15",
+          "price_mid": 34.0,
+          "price_min": 30.0,
+          "price_max": 38.0
+        },
+        {
+          "week_end": "2011-05-22",
+          "price_mid": 32.0,
+          "price_min": 28.0,
+          "price_max": 36.0
+        },
+        {
+          "week_end": "2011-05-29",
+          "price_mid": 31.0,
+          "price_min": 27.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2011-06-05",
+          "price_mid": 38.8,
+          "price_min": 32.6,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2011-06-12",
+          "price_mid": 44.0,
+          "price_min": 38.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2011-06-19",
+          "price_mid": 48.0,
+          "price_min": 42.0,
+          "price_max": 54.0
+        },
+        {
+          "week_end": "2011-06-26",
+          "price_mid": 49.0,
+          "price_min": 43.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2011-07-03",
+          "price_mid": 49.0,
+          "price_min": 43.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2011-07-10",
+          "price_mid": 44.2,
+          "price_min": 39.0,
+          "price_max": 49.4
+        },
+        {
+          "week_end": "2011-07-17",
+          "price_mid": 40.8,
+          "price_min": 35.8,
+          "price_max": 45.8
+        },
+        {
+          "week_end": "2011-07-24",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2011-07-31",
+          "price_mid": 41.0,
+          "price_min": 37.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2011-08-07",
+          "price_mid": 41.0,
+          "price_min": 38.8,
+          "price_max": 43.2
+        },
+        {
+          "week_end": "2011-08-14",
+          "price_mid": 40.0,
+          "price_min": 38.0,
+          "price_max": 42.0
+        },
+        {
+          "week_end": "2011-08-21",
+          "price_mid": 39.2,
+          "price_min": 36.8,
+          "price_max": 41.6
+        },
+        {
+          "week_end": "2011-08-28",
+          "price_mid": 36.0,
+          "price_min": 32.0,
+          "price_max": 40.0
+        },
+        {
+          "week_end": "2011-09-04",
+          "price_mid": 33.3,
+          "price_min": 27.8,
+          "price_max": 38.8
+        },
+        {
+          "week_end": "2011-09-11",
+          "price_mid": 33.9,
+          "price_min": 29.0,
+          "price_max": 38.8
+        },
+        {
+          "week_end": "2011-09-18",
+          "price_mid": 37.5,
+          "price_min": 35.0,
+          "price_max": 40.0
+        },
+        {
+          "week_end": "2011-09-25",
+          "price_mid": 43.5,
+          "price_min": 39.0,
+          "price_max": 48.0
+        },
+        {
+          "week_end": "2011-10-02",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2011-10-09",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2011-10-16",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2011-10-23",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2011-10-30",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2011-11-06",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2011-11-13",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2012-05-06",
+          "price_mid": 36.5,
+          "price_min": 35.0,
+          "price_max": 38.0
+        },
+        {
+          "week_end": "2012-05-13",
+          "price_mid": 44.0,
+          "price_min": 38.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2012-05-20",
+          "price_mid": 44.0,
+          "price_min": 38.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2012-05-27",
+          "price_mid": 44.0,
+          "price_min": 38.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2012-06-03",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2012-06-10",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2012-06-17",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2012-06-24",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2012-07-01",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2012-07-08",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2012-07-15",
+          "price_mid": 55.0,
+          "price_min": 50.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2012-07-22",
+          "price_mid": 63.0,
+          "price_min": 58.0,
+          "price_max": 68.0
+        },
+        {
+          "week_end": "2012-07-29",
+          "price_mid": 59.0,
+          "price_min": 52.0,
+          "price_max": 66.0
+        },
+        {
+          "week_end": "2012-08-05",
+          "price_mid": 52.5,
+          "price_min": 46.7,
+          "price_max": 58.3
+        },
+        {
+          "week_end": "2012-08-12",
+          "price_mid": 43.4,
+          "price_min": 39.0,
+          "price_max": 47.8
+        },
+        {
+          "week_end": "2012-08-19",
+          "price_mid": 37.2,
+          "price_min": 32.5,
+          "price_max": 42.0
+        },
+        {
+          "week_end": "2012-08-26",
+          "price_mid": 36.0,
+          "price_min": 30.0,
+          "price_max": 42.0
+        },
+        {
+          "week_end": "2012-09-02",
+          "price_mid": 36.0,
+          "price_min": 30.0,
+          "price_max": 42.0
+        },
+        {
+          "week_end": "2012-09-09",
+          "price_mid": 36.0,
+          "price_min": 30.0,
+          "price_max": 42.0
+        },
+        {
+          "week_end": "2012-09-16",
+          "price_mid": 36.0,
+          "price_min": 30.0,
+          "price_max": 42.0
+        },
+        {
+          "week_end": "2012-09-23",
+          "price_mid": 37.2,
+          "price_min": 31.2,
+          "price_max": 43.2
+        },
+        {
+          "week_end": "2012-09-30",
+          "price_mid": 42.2,
+          "price_min": 37.0,
+          "price_max": 47.4
+        },
+        {
+          "week_end": "2012-10-07",
+          "price_mid": 43.0,
+          "price_min": 38.0,
+          "price_max": 48.0
+        },
+        {
+          "week_end": "2012-10-14",
+          "price_mid": 39.8,
+          "price_min": 35.6,
+          "price_max": 44.0
+        },
+        {
+          "week_end": "2012-10-21",
+          "price_mid": 39.0,
+          "price_min": 35.0,
+          "price_max": 43.0
+        },
+        {
+          "week_end": "2012-10-28",
+          "price_mid": 39.0,
+          "price_min": 35.0,
+          "price_max": 43.0
+        },
+        {
+          "week_end": "2012-11-04",
+          "price_mid": 43.0,
+          "price_min": 37.4,
+          "price_max": 48.6
+        },
+        {
+          "week_end": "2012-11-11",
+          "price_mid": 44.0,
+          "price_min": 38.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2012-11-18",
+          "price_mid": 44.0,
+          "price_min": 38.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-06-02",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-06-09",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-06-16",
+          "price_mid": 44.7,
+          "price_min": 43.4,
+          "price_max": 46.0
+        },
+        {
+          "week_end": "2013-06-23",
+          "price_mid": 49.4,
+          "price_min": 47.8,
+          "price_max": 51.0
+        },
+        {
+          "week_end": "2013-06-30",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-07-07",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-07-14",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-07-21",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-07-28",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-08-04",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-08-11",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-08-18",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-08-25",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-09-01",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-09-08",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2013-09-15",
+          "price_mid": 53.5,
+          "price_min": 51.0,
+          "price_max": 56.0
+        },
+        {
+          "week_end": "2013-09-22",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-09-29",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-10-06",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-10-13",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-10-20",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2013-10-27",
+          "price_mid": 51.2,
+          "price_min": 48.8,
+          "price_max": 53.8
+        },
+        {
+          "week_end": "2013-11-03",
+          "price_mid": 52.5,
+          "price_min": 50.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2013-11-10",
+          "price_mid": 70.5,
+          "price_min": 66.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2013-11-17",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2013-11-24",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2014-05-04",
+          "price_mid": 47.5,
+          "price_min": 45.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2014-05-11",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2014-05-18",
+          "price_mid": 58.8,
+          "price_min": 53.8,
+          "price_max": 63.8
+        },
+        {
+          "week_end": "2014-05-25",
+          "price_mid": 55.0,
+          "price_min": 50.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2014-06-01",
+          "price_mid": 59.0,
+          "price_min": 54.0,
+          "price_max": 64.0
+        },
+        {
+          "week_end": "2014-06-08",
+          "price_mid": 59.0,
+          "price_min": 54.0,
+          "price_max": 64.0
+        },
+        {
+          "week_end": "2014-06-15",
+          "price_mid": 55.0,
+          "price_min": 50.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2014-06-22",
+          "price_mid": 49.0,
+          "price_min": 44.0,
+          "price_max": 54.0
+        },
+        {
+          "week_end": "2014-06-29",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2014-07-06",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2014-07-13",
+          "price_mid": 45.0,
+          "price_min": 40.0,
+          "price_max": 50.0
+        },
+        {
+          "week_end": "2014-07-20",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-07-27",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-08-03",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-08-10",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-08-17",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-08-24",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-08-31",
+          "price_mid": 40.0,
+          "price_min": 35.0,
+          "price_max": 45.0
+        },
+        {
+          "week_end": "2014-09-07",
+          "price_mid": 46.0,
+          "price_min": 41.0,
+          "price_max": 51.0
+        },
+        {
+          "week_end": "2014-09-14",
+          "price_mid": 50.0,
+          "price_min": 45.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2014-09-21",
+          "price_mid": 50.0,
+          "price_min": 45.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2014-09-28",
+          "price_mid": 50.0,
+          "price_min": 45.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2014-10-05",
+          "price_mid": 50.0,
+          "price_min": 45.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-05-03",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2015-05-10",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-05-17",
+          "price_mid": 67.5,
+          "price_min": 60.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2015-05-24",
+          "price_mid": 67.5,
+          "price_min": 60.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2015-05-31",
+          "price_mid": 67.5,
+          "price_min": 60.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2015-06-07",
+          "price_mid": 67.5,
+          "price_min": 60.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2015-06-14",
+          "price_mid": 70.5,
+          "price_min": 63.0,
+          "price_max": 78.0
+        },
+        {
+          "week_end": "2015-06-21",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-06-28",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-07-05",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-07-12",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-07-19",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-07-26",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-08-02",
+          "price_mid": 72.5,
+          "price_min": 65.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2015-08-09",
+          "price_mid": 68.0,
+          "price_min": 62.0,
+          "price_max": 74.0
+        },
+        {
+          "week_end": "2015-08-16",
+          "price_mid": 61.2,
+          "price_min": 56.2,
+          "price_max": 66.2
+        },
+        {
+          "week_end": "2015-08-23",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-08-30",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-09-06",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-09-13",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-09-20",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-09-27",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-10-04",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2015-10-11",
+          "price_mid": 60.0,
+          "price_min": 55.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2016-04-24",
+          "price_mid": 85.0,
+          "price_min": 75.0,
+          "price_max": 95.0
+        },
+        {
+          "week_end": "2016-05-01",
+          "price_mid": 85.0,
+          "price_min": 75.0,
+          "price_max": 95.0
+        },
+        {
+          "week_end": "2016-05-08",
+          "price_mid": 85.0,
+          "price_min": 75.0,
+          "price_max": 95.0
+        },
+        {
+          "week_end": "2016-05-15",
+          "price_mid": 87.5,
+          "price_min": 77.5,
+          "price_max": 97.5
+        },
+        {
+          "week_end": "2016-05-22",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2016-05-29",
+          "price_mid": 98.0,
+          "price_min": 88.0,
+          "price_max": 108.0
+        },
+        {
+          "week_end": "2016-06-05",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2016-06-12",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2016-06-19",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2016-06-26",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2016-07-03",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2016-07-10",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-07-17",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-07-24",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-07-31",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-08-07",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-08-14",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-08-21",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2016-08-28",
+          "price_mid": 87.0,
+          "price_min": 76.0,
+          "price_max": 98.0
+        },
+        {
+          "week_end": "2016-09-04",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-09-11",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-09-18",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-09-25",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-10-02",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-10-09",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-10-16",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-10-23",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2016-10-30",
+          "price_mid": 70.0,
+          "price_min": 60.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2016-11-06",
+          "price_mid": 70.0,
+          "price_min": 60.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2016-11-13",
+          "price_mid": 70.0,
+          "price_min": 60.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2016-11-20",
+          "price_mid": 74.0,
+          "price_min": 60.0,
+          "price_max": 88.0
+        },
+        {
+          "week_end": "2017-05-07",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2017-05-14",
+          "price_mid": 100.0,
+          "price_min": 93.3,
+          "price_max": 106.7
+        },
+        {
+          "week_end": "2017-05-21",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2017-05-28",
+          "price_mid": 89.0,
+          "price_min": 84.0,
+          "price_max": 94.0
+        },
+        {
+          "week_end": "2017-06-04",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-06-11",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2017-06-18",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2017-06-25",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-07-02",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2017-07-09",
+          "price_mid": 146.0,
+          "price_min": 136.0,
+          "price_max": 156.0
+        },
+        {
+          "week_end": "2017-07-16",
+          "price_mid": 125.0,
+          "price_min": 120.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2017-07-23",
+          "price_mid": 125.0,
+          "price_min": 120.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2017-07-30",
+          "price_mid": 90.0,
+          "price_min": 85.0,
+          "price_max": 95.0
+        },
+        {
+          "week_end": "2017-08-06",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-08-13",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-08-20",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-08-27",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-09-03",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-09-10",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-09-17",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-09-24",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2017-10-01",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-04-29",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2018-05-06",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-05-13",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-05-20",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-05-27",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-06-03",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-06-10",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-06-17",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-06-24",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-07-01",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-07-08",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-07-15",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-07-22",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-07-29",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-08-05",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2018-08-12",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-08-19",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-08-26",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-09-02",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-09-09",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-09-16",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-09-23",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2018-09-30",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-03-31",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-04-07",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-04-14",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-04-21",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-04-28",
+          "price_mid": 102.0,
+          "price_min": 92.0,
+          "price_max": 112.0
+        },
+        {
+          "week_end": "2019-05-05",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-05-12",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-05-19",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-05-26",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-06-02",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2019-06-09",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2019-06-16",
+          "price_mid": 160.0,
+          "price_min": 140.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2019-06-23",
+          "price_mid": 160.0,
+          "price_min": 140.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2019-06-30",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2019-07-07",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2019-07-14",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2019-07-21",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2019-07-28",
+          "price_mid": 133.0,
+          "price_min": 128.0,
+          "price_max": 138.0
+        },
+        {
+          "week_end": "2019-08-04",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-08-11",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-08-18",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-08-25",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2019-09-01",
+          "price_mid": 87.0,
+          "price_min": 82.0,
+          "price_max": 92.0
+        },
+        {
+          "week_end": "2019-09-08",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2019-09-15",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2019-09-22",
+          "price_mid": 97.5,
+          "price_min": 92.5,
+          "price_max": 102.5
+        },
+        {
+          "week_end": "2019-09-29",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-10-06",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-10-13",
+          "price_mid": 131.0,
+          "price_min": 126.0,
+          "price_max": 136.0
+        },
+        {
+          "week_end": "2020-04-05",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-04-12",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-04-19",
+          "price_mid": 119.0,
+          "price_min": 114.0,
+          "price_max": 124.0
+        },
+        {
+          "week_end": "2020-04-26",
+          "price_mid": 127.0,
+          "price_min": 122.0,
+          "price_max": 132.0
+        },
+        {
+          "week_end": "2020-05-03",
+          "price_mid": 119.0,
+          "price_min": 114.0,
+          "price_max": 124.0
+        },
+        {
+          "week_end": "2020-05-10",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-05-17",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-05-24",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-05-31",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-06-07",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-06-14",
+          "price_mid": 118.0,
+          "price_min": 110.0,
+          "price_max": 126.0
+        },
+        {
+          "week_end": "2020-06-21",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2020-06-28",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-07-05",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-07-12",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-07-19",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-07-26",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-08-02",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-08-09",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-08-16",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-08-23",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-08-30",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-09-06",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-09-13",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-09-20",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-09-27",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-10-04",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-10-11",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-10-18",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2020-10-25",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-11-01",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2020-11-08",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2021-04-25",
+          "price_mid": 135.0,
+          "price_min": 120.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2021-05-02",
+          "price_mid": 129.0,
+          "price_min": 114.0,
+          "price_max": 144.0
+        },
+        {
+          "week_end": "2021-05-09",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2021-05-16",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2021-05-23",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2021-05-30",
+          "price_mid": 115.0,
+          "price_min": 105.0,
+          "price_max": 125.0
+        },
+        {
+          "week_end": "2021-06-06",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2021-06-13",
+          "price_mid": 126.0,
+          "price_min": 116.0,
+          "price_max": 136.0
+        },
+        {
+          "week_end": "2021-06-20",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-06-27",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-07-04",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-07-11",
+          "price_mid": 122.0,
+          "price_min": 112.0,
+          "price_max": 132.0
+        },
+        {
+          "week_end": "2021-07-18",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2021-07-25",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2021-08-01",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2021-08-08",
+          "price_mid": 116.0,
+          "price_min": 106.0,
+          "price_max": 126.0
+        },
+        {
+          "week_end": "2021-08-15",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2021-08-22",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2021-08-29",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2021-09-05",
+          "price_mid": 114.0,
+          "price_min": 100.0,
+          "price_max": 128.0
+        },
+        {
+          "week_end": "2021-09-12",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2021-09-19",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-09-26",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-10-03",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-10-10",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-10-17",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-10-24",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2021-10-31",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-04-24",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2022-05-01",
+          "price_mid": 138.0,
+          "price_min": 132.0,
+          "price_max": 144.0
+        },
+        {
+          "week_end": "2022-05-08",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-05-15",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-05-22",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-05-29",
+          "price_mid": 127.0,
+          "price_min": 122.0,
+          "price_max": 132.0
+        },
+        {
+          "week_end": "2022-06-05",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-06-12",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-06-19",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-06-26",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-07-03",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-07-10",
+          "price_mid": 119.0,
+          "price_min": 114.0,
+          "price_max": 124.0
+        },
+        {
+          "week_end": "2022-07-17",
+          "price_mid": 125.0,
+          "price_min": 120.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2022-07-24",
+          "price_mid": 125.0,
+          "price_min": 120.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2022-07-31",
+          "price_mid": 125.0,
+          "price_min": 120.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2022-08-07",
+          "price_mid": 125.0,
+          "price_min": 120.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2022-08-14",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-08-21",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-08-28",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-09-04",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-09-11",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2022-09-18",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-04-16",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-04-23",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-04-30",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2023-05-07",
+          "price_mid": 126.7,
+          "price_min": 116.7,
+          "price_max": 136.7
+        },
+        {
+          "week_end": "2023-05-14",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-05-21",
+          "price_mid": 185.0,
+          "price_min": 180.0,
+          "price_max": 190.0
+        },
+        {
+          "week_end": "2023-05-28",
+          "price_mid": 220.0,
+          "price_min": 200.0,
+          "price_max": 240.0
+        },
+        {
+          "week_end": "2023-06-04",
+          "price_mid": 220.0,
+          "price_min": 200.0,
+          "price_max": 240.0
+        },
+        {
+          "week_end": "2023-06-11",
+          "price_mid": 220.0,
+          "price_min": 200.0,
+          "price_max": 240.0
+        },
+        {
+          "week_end": "2023-06-18",
+          "price_mid": 160.0,
+          "price_min": 140.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2023-06-25",
+          "price_mid": 148.0,
+          "price_min": 128.0,
+          "price_max": 168.0
+        },
+        {
+          "week_end": "2023-07-02",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-07-09",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-07-16",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-07-23",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-07-30",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2023-08-06",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2023-08-13",
+          "price_mid": 162.0,
+          "price_min": 152.0,
+          "price_max": 172.0
+        },
+        {
+          "week_end": "2023-08-20",
+          "price_mid": 145.0,
+          "price_min": 140.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-08-27",
+          "price_mid": 151.0,
+          "price_min": 144.0,
+          "price_max": 158.0
+        },
+        {
+          "week_end": "2023-09-03",
+          "price_mid": 148.0,
+          "price_min": 138.0,
+          "price_max": 158.0
+        },
+        {
+          "week_end": "2023-09-10",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-09-17",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-09-24",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-10-01",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-10-08",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-10-15",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-10-22",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-10-29",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-11-05",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-11-12",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2023-11-19",
+          "price_mid": 140.0,
+          "price_min": 130.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2024-04-21",
+          "price_mid": 185.0,
+          "price_min": 170.0,
+          "price_max": 200.0
+        },
+        {
+          "week_end": "2024-04-28",
+          "price_mid": 177.0,
+          "price_min": 162.0,
+          "price_max": 192.0
+        },
+        {
+          "week_end": "2024-05-05",
+          "price_mid": 135.0,
+          "price_min": 120.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2024-05-12",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2024-05-19",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2024-05-26",
+          "price_mid": 150.0,
+          "price_min": 140.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-06-02",
+          "price_mid": 165.0,
+          "price_min": 150.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2024-06-09",
+          "price_mid": 165.0,
+          "price_min": 150.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2024-06-16",
+          "price_mid": 165.0,
+          "price_min": 150.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2024-06-23",
+          "price_mid": 161.0,
+          "price_min": 146.0,
+          "price_max": 176.0
+        },
+        {
+          "week_end": "2024-06-30",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-07-07",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-07-14",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-07-21",
+          "price_mid": 165.0,
+          "price_min": 150.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2024-07-28",
+          "price_mid": 165.0,
+          "price_min": 150.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2024-08-04",
+          "price_mid": 165.0,
+          "price_min": 150.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2024-08-11",
+          "price_mid": 151.0,
+          "price_min": 136.0,
+          "price_max": 166.0
+        },
+        {
+          "week_end": "2024-08-18",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-08-25",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-09-01",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-09-08",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-09-15",
+          "price_mid": 145.0,
+          "price_min": 130.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2024-09-22",
+          "price_mid": 126.0,
+          "price_min": 116.0,
+          "price_max": 136.0
+        },
+        {
+          "week_end": "2024-09-29",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-10-06",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-10-13",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-10-20",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-10-27",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2025-04-27",
+          "price_mid": 170.0,
+          "price_min": 160.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2025-05-04",
+          "price_mid": 160.0,
+          "price_min": 150.0,
+          "price_max": 170.0
+        },
+        {
+          "week_end": "2025-05-11",
+          "price_mid": 150.0,
+          "price_min": 136.7,
+          "price_max": 163.3
+        },
+        {
+          "week_end": "2025-05-18",
+          "price_mid": 140.0,
+          "price_min": 120.0,
+          "price_max": 160.0
+        },
+        {
+          "week_end": "2025-05-25",
+          "price_mid": 138.0,
+          "price_min": 120.0,
+          "price_max": 156.0
+        },
+        {
+          "week_end": "2025-06-01",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2025-06-08",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2025-06-15",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2025-06-22",
+          "price_mid": 108.0,
+          "price_min": 96.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2025-06-29",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2025-07-06",
+          "price_mid": 101.0,
+          "price_min": 86.0,
+          "price_max": 116.0
+        },
+        {
+          "week_end": "2025-07-13",
+          "price_mid": 95.0,
+          "price_min": 80.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2025-07-20",
+          "price_mid": 91.0,
+          "price_min": 76.0,
+          "price_max": 106.0
+        },
+        {
+          "week_end": "2025-07-27",
+          "price_mid": 85.0,
+          "price_min": 70.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2025-08-03",
+          "price_mid": 85.0,
+          "price_min": 70.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2025-08-10",
+          "price_mid": 83.0,
+          "price_min": 70.0,
+          "price_max": 96.0
+        },
+        {
+          "week_end": "2025-08-17",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-08-24",
+          "price_mid": 92.0,
+          "price_min": 82.0,
+          "price_max": 102.0
+        },
+        {
+          "week_end": "2025-08-31",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2025-09-07",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2025-09-14",
+          "price_mid": 124.0,
+          "price_min": 108.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2025-09-21",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2025-09-28",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2025-10-05",
+          "price_mid": 135.0,
+          "price_min": 130.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2026-04-26",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-05-03",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-05-10",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-05-17",
+          "price_mid": 120.0,
+          "price_min": 110.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2026-05-24",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2026-05-31",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-06-07",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-06-14",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-06-21",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-06-28",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-07-05",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-07-12",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-07-19",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-07-26",
+          "price_mid": 87.0,
+          "price_min": 74.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-08-02",
+          "price_mid": 85.0,
+          "price_min": 70.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-08-09",
+          "price_mid": 85.0,
+          "price_min": 70.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-08-16",
+          "price_mid": 85.0,
+          "price_min": 70.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-08-23",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-08-30",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-09-06",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-09-13",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-09-20",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2026-09-27",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        }
       ]
     },
     {
@@ -241,6 +2967,1652 @@
         {
           "week_end": "2026-08-09",
           "price_mid": 80.0
+        }
+      ],
+      "history": [
+        {
+          "week_end": "2010-04-04",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-04-11",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-04-18",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-04-25",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-05-02",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-05-09",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-05-16",
+          "price_mid": 27.8,
+          "price_min": 26.8,
+          "price_max": 28.8
+        },
+        {
+          "week_end": "2010-05-23",
+          "price_mid": 24.0,
+          "price_min": 23.0,
+          "price_max": 25.0
+        },
+        {
+          "week_end": "2010-05-30",
+          "price_mid": 24.0,
+          "price_min": 23.0,
+          "price_max": 25.0
+        },
+        {
+          "week_end": "2010-06-06",
+          "price_mid": 25.7,
+          "price_min": 24.4,
+          "price_max": 27.0
+        },
+        {
+          "week_end": "2010-06-13",
+          "price_mid": 24.0,
+          "price_min": 23.0,
+          "price_max": 25.0
+        },
+        {
+          "week_end": "2010-06-20",
+          "price_mid": 28.8,
+          "price_min": 27.0,
+          "price_max": 30.6
+        },
+        {
+          "week_end": "2010-06-27",
+          "price_mid": 33.5,
+          "price_min": 32.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2010-07-04",
+          "price_mid": 33.5,
+          "price_min": 32.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2011-05-01",
+          "price_mid": 24.9,
+          "price_min": 23.0,
+          "price_max": 26.8
+        },
+        {
+          "week_end": "2011-05-08",
+          "price_mid": 22.5,
+          "price_min": 20.0,
+          "price_max": 25.0
+        },
+        {
+          "week_end": "2011-05-15",
+          "price_mid": 22.5,
+          "price_min": 20.0,
+          "price_max": 25.0
+        },
+        {
+          "week_end": "2011-05-22",
+          "price_mid": 20.8,
+          "price_min": 18.7,
+          "price_max": 23.0
+        },
+        {
+          "week_end": "2011-05-29",
+          "price_mid": 20.0,
+          "price_min": 18.0,
+          "price_max": 22.0
+        },
+        {
+          "week_end": "2011-06-05",
+          "price_mid": 23.2,
+          "price_min": 21.2,
+          "price_max": 25.2
+        },
+        {
+          "week_end": "2011-06-12",
+          "price_mid": 24.0,
+          "price_min": 22.0,
+          "price_max": 26.0
+        },
+        {
+          "week_end": "2011-06-19",
+          "price_mid": 24.0,
+          "price_min": 22.0,
+          "price_max": 26.0
+        },
+        {
+          "week_end": "2011-06-26",
+          "price_mid": 30.8,
+          "price_min": 28.4,
+          "price_max": 33.2
+        },
+        {
+          "week_end": "2011-07-03",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2012-05-06",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-05-13",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-05-20",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-05-27",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-06-03",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-06-10",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-06-17",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-06-24",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-07-01",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2012-07-08",
+          "price_mid": 29.0,
+          "price_min": 28.0,
+          "price_max": 30.0
+        },
+        {
+          "week_end": "2014-05-04",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-05-11",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-05-18",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-05-25",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-06-01",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-06-08",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-06-15",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2014-06-22",
+          "price_mid": 32.5,
+          "price_min": 30.0,
+          "price_max": 35.0
+        },
+        {
+          "week_end": "2015-05-03",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-05-10",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-05-17",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-05-24",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-05-31",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-06-07",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2015-06-14",
+          "price_mid": 47.5,
+          "price_min": 40.0,
+          "price_max": 55.0
+        },
+        {
+          "week_end": "2016-04-24",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-05-01",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-05-08",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-05-15",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-05-22",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-05-29",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-06-05",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-06-12",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-06-19",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-06-26",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-07-03",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2016-07-10",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2017-05-07",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2017-05-14",
+          "price_mid": 68.3,
+          "price_min": 63.3,
+          "price_max": 73.3
+        },
+        {
+          "week_end": "2017-05-21",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-05-28",
+          "price_mid": 60.5,
+          "price_min": 57.0,
+          "price_max": 64.0
+        },
+        {
+          "week_end": "2017-06-04",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2017-06-11",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2017-06-18",
+          "price_mid": 57.5,
+          "price_min": 55.0,
+          "price_max": 60.0
+        },
+        {
+          "week_end": "2017-06-25",
+          "price_mid": 62.5,
+          "price_min": 60.0,
+          "price_max": 65.0
+        },
+        {
+          "week_end": "2017-07-02",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2017-07-09",
+          "price_mid": 121.0,
+          "price_min": 116.0,
+          "price_max": 126.0
+        },
+        {
+          "week_end": "2017-07-16",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2017-07-23",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2017-07-30",
+          "price_mid": 70.0,
+          "price_min": 65.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2017-08-06",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-08-13",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-08-20",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-08-27",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-09-03",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-09-10",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2017-09-17",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2018-04-29",
+          "price_mid": 72.5,
+          "price_min": 70.0,
+          "price_max": 75.0
+        },
+        {
+          "week_end": "2018-05-06",
+          "price_mid": 67.5,
+          "price_min": 65.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2018-05-13",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-05-20",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-05-27",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-06-03",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-06-10",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-06-17",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-06-24",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-07-01",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-07-08",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-07-15",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-07-22",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-07-29",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-08-05",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2018-08-12",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2018-08-19",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2018-08-26",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2018-09-02",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2018-09-09",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2018-09-16",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2019-04-07",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2019-04-14",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2019-04-21",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2019-04-28",
+          "price_mid": 67.0,
+          "price_min": 62.0,
+          "price_max": 72.0
+        },
+        {
+          "week_end": "2019-05-05",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-05-12",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-05-19",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2019-05-26",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2019-06-02",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-06-09",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-06-16",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-06-23",
+          "price_mid": 115.0,
+          "price_min": 110.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2019-06-30",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-07-07",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-07-14",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-07-21",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2019-07-28",
+          "price_mid": 83.0,
+          "price_min": 78.0,
+          "price_max": 88.0
+        },
+        {
+          "week_end": "2019-08-04",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-08-11",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-08-18",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-08-25",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-09-01",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-09-08",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-09-15",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2019-09-22",
+          "price_mid": 67.5,
+          "price_min": 62.5,
+          "price_max": 72.5
+        },
+        {
+          "week_end": "2019-09-29",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2019-10-06",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2019-10-13",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2020-04-05",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-04-12",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-04-19",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-04-26",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-05-03",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-05-10",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-05-17",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-05-24",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-05-31",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-06-07",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-06-14",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-06-21",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-06-28",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-07-05",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-07-12",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-07-19",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-07-26",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-08-02",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-08-09",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-08-16",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-08-23",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-08-30",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-09-06",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-09-13",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-09-20",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-09-27",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-10-04",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-10-11",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-10-18",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2020-10-25",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2020-11-01",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2020-11-08",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2021-04-25",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2021-05-02",
+          "price_mid": 99.0,
+          "price_min": 94.0,
+          "price_max": 104.0
+        },
+        {
+          "week_end": "2021-05-09",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2021-05-16",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2021-05-23",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2021-05-30",
+          "price_mid": 90.0,
+          "price_min": 85.0,
+          "price_max": 95.0
+        },
+        {
+          "week_end": "2021-06-06",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2021-06-13",
+          "price_mid": 101.0,
+          "price_min": 96.0,
+          "price_max": 106.0
+        },
+        {
+          "week_end": "2021-06-20",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2021-06-27",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2021-07-04",
+          "price_mid": 105.0,
+          "price_min": 100.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2021-07-11",
+          "price_mid": 101.0,
+          "price_min": 96.0,
+          "price_max": 106.0
+        },
+        {
+          "week_end": "2021-07-18",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2021-07-25",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2021-08-01",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2021-08-08",
+          "price_mid": 91.0,
+          "price_min": 86.0,
+          "price_max": 96.0
+        },
+        {
+          "week_end": "2021-08-15",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2021-08-22",
+          "price_mid": 73.0,
+          "price_min": 68.0,
+          "price_max": 78.0
+        },
+        {
+          "week_end": "2021-08-29",
+          "price_mid": 65.0,
+          "price_min": 60.0,
+          "price_max": 70.0
+        },
+        {
+          "week_end": "2021-09-05",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2021-09-12",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2021-09-19",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2021-09-26",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-04-24",
+          "price_mid": 100.0,
+          "price_min": 80.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-05-01",
+          "price_mid": 92.0,
+          "price_min": 80.0,
+          "price_max": 104.0
+        },
+        {
+          "week_end": "2022-05-08",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2022-05-15",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2022-05-22",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2022-05-29",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2022-06-05",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2022-06-12",
+          "price_mid": 85.0,
+          "price_min": 75.0,
+          "price_max": 95.0
+        },
+        {
+          "week_end": "2022-06-19",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-06-26",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-07-03",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-07-10",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-07-17",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-07-24",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-07-31",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-08-07",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2022-08-14",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2022-08-21",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2022-08-28",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2023-04-16",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2023-04-23",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2023-04-30",
+          "price_mid": 75.0,
+          "price_min": 60.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2023-05-07",
+          "price_mid": 81.7,
+          "price_min": 66.7,
+          "price_max": 96.7
+        },
+        {
+          "week_end": "2023-05-14",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2023-05-21",
+          "price_mid": 130.0,
+          "price_min": 120.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-05-28",
+          "price_mid": 160.0,
+          "price_min": 140.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2023-06-04",
+          "price_mid": 160.0,
+          "price_min": 140.0,
+          "price_max": 180.0
+        },
+        {
+          "week_end": "2023-06-11",
+          "price_mid": 120.0,
+          "price_min": 100.0,
+          "price_max": 140.0
+        },
+        {
+          "week_end": "2023-06-18",
+          "price_mid": 100.0,
+          "price_min": 80.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-06-25",
+          "price_mid": 100.0,
+          "price_min": 80.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-07-02",
+          "price_mid": 100.0,
+          "price_min": 80.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-07-09",
+          "price_mid": 100.0,
+          "price_min": 80.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-07-16",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2023-07-23",
+          "price_mid": 90.0,
+          "price_min": 80.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2023-07-30",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-08-06",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-08-13",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-08-20",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2023-08-27",
+          "price_mid": 110.0,
+          "price_min": 100.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-04-21",
+          "price_mid": 125.0,
+          "price_min": 100.0,
+          "price_max": 150.0
+        },
+        {
+          "week_end": "2024-04-28",
+          "price_mid": 105.0,
+          "price_min": 92.0,
+          "price_max": 118.0
+        },
+        {
+          "week_end": "2024-05-05",
+          "price_mid": 80.0,
+          "price_min": 70.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2024-05-12",
+          "price_mid": 75.0,
+          "price_min": 70.0,
+          "price_max": 80.0
+        },
+        {
+          "week_end": "2024-05-19",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2024-05-26",
+          "price_mid": 100.0,
+          "price_min": 90.0,
+          "price_max": 110.0
+        },
+        {
+          "week_end": "2024-06-02",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-06-09",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-06-16",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-06-23",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-06-30",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-07-07",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-07-14",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-07-21",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-07-28",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-08-04",
+          "price_mid": 115.0,
+          "price_min": 100.0,
+          "price_max": 130.0
+        },
+        {
+          "week_end": "2024-08-11",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-08-18",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-08-25",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-09-01",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-09-08",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2024-09-15",
+          "price_mid": 105.0,
+          "price_min": 90.0,
+          "price_max": 120.0
+        },
+        {
+          "week_end": "2025-05-11",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2025-05-18",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2025-05-25",
+          "price_mid": 91.0,
+          "price_min": 86.0,
+          "price_max": 96.0
+        },
+        {
+          "week_end": "2025-06-01",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-06-08",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-06-15",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-06-22",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-06-29",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-07-06",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-07-13",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-07-20",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-07-27",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-08-03",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2025-08-10",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-05-10",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-05-17",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-05-24",
+          "price_mid": 95.0,
+          "price_min": 90.0,
+          "price_max": 100.0
+        },
+        {
+          "week_end": "2026-05-31",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-06-07",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-06-14",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-06-21",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-06-28",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-07-05",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-07-12",
+          "price_mid": 85.0,
+          "price_min": 80.0,
+          "price_max": 90.0
+        },
+        {
+          "week_end": "2026-07-19",
+          "price_mid": 80.0,
+          "price_min": 75.0,
+          "price_max": 85.0
+        },
+        {
+          "week_end": "2026-07-26",
+          "price_mid": 80.0,
+          "price_min": 75.0,
+          "price_max": 85.0
+        },
+        {
+          "week_end": "2026-08-02",
+          "price_mid": 80.0,
+          "price_min": 75.0,
+          "price_max": 85.0
+        },
+        {
+          "week_end": "2026-08-09",
+          "price_mid": 80.0,
+          "price_min": 75.0,
+          "price_max": 85.0
         }
       ],
       "warning_th": "ราคาล่าสุดเก่า 50 วัน น่าจะอยู่นอกฤดูของชะนี ตัวเลขพยากรณ์ใช้อ้างอิงไม่ได้จนกว่าฤดูใหม่จะเริ่ม"

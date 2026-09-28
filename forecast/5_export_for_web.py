@@ -1,7 +1,7 @@
 """ขั้นที่ 5: รวมผลทั้งหมดเป็นไฟล์เดียวให้ทีมเว็บ -> outputs/forecast.json
-
+ 
     python 5_export_for_web.py
-
+ 
 ใช้วิธีที่ทดสอบแล้วว่าเชื่อถือได้ (ดูผลขั้นที่ 3–4):
     ช่วงราคาสัปดาห์หน้า   = ราคาล่าสุด ± error จริงในอดีต (naive, ครอบคลุมราคาจริง ~80%)
     โอกาสราคาลงใน 1 สัปดาห์ = % ที่ราคาเคยลงในช่วงเดียวกันของฤดู (seasonal)
@@ -10,24 +10,24 @@
 """
 import json
 from datetime import datetime
-
+ 
 import numpy as np
 import pandas as pd
-
+ 
 import config as C
-
+ 
 DROP_BAHT = 5          # นับว่า "ราคาลง" เมื่อลดอย่างน้อยกี่บาท/กก.
 WINDOW = 1             # ภายในกี่สัปดาห์ (แม่บอกว่าผลแก่แล้วรอได้ไม่เกิน 1 สัปดาห์)
 HISTORY_YEARS = 5      # เทียบราคาช่วงเดียวกันย้อนหลังกี่ปี
 RECENT_WEEKS = 12      # ส่งราคาย้อนหลังกี่สัปดาห์ไปทำกราฟ
 STALE_DAYS = 21        # ข้อมูลเก่ากว่านี้ = น่าจะอยู่นอกฤดู
 PHASE_BINS, PHASE_LABELS = [0, 6, 14, 999], ["ต้นฤดู", "กลางฤดู", "ปลายฤดู"]   # สัปดาห์ที่ของฤดู
-
-
+ 
+ 
 def r1(x):
     return None if x is None or pd.isna(x) else round(float(x), 1)
-
-
+ 
+ 
 def price_range(df, last, horizons):
     """ช่วงราคา 80% = ราคาล่าสุด x ควอนไทล์ของ log(ราคาอีก h สัปดาห์ / ราคาตอนนี้) ในอดีต"""
     base = df.loc[last, "price_mid"]
@@ -45,8 +45,8 @@ def price_range(df, last, horizons):
                     "expected": r1(base), "low_80": r1(base * np.exp(lo)),
                     "high_80": r1(base * np.exp(hi))})
     return out
-
-
+ 
+ 
 def drop_probability(df, last):
     """% ที่ราคาเคยลง >= DROP_BAHT ภายใน WINDOW สัปดาห์ แยกตามช่วงของฤดู (ถ่วงเข้าหาค่ารวม)"""
     fut = [f"target_h{h}" for h in range(1, WINDOW + 1) if f"target_h{h}" in df]
@@ -77,8 +77,8 @@ def drop_probability(df, last):
                        f"ภายใน {WINDOW} สัปดาห์ ประมาณ {p * 100:.0f}% ของครั้ง (โอกาส{level}) — {advice}"),
         "caveat_th": "เป็นสถิติจากอดีต ไม่ใช่คำทำนายที่แน่นอน ต้องตรวจความแก่ของผลก่อนตัดเสมอ",
     }
-
-
+ 
+ 
 def same_week_history(df, last):
     wk = last.isocalendar().week
     rows = []
@@ -88,8 +88,8 @@ def same_week_history(df, last):
             rows.append({"year": y, "price": r1(g["price_mid"].iloc[0])})
     avg = r1(np.mean([r["price"] for r in rows])) if rows else None
     return {"iso_week": int(wk), "years": rows, "average": avg}
-
-
+ 
+ 
 def product_block(pid, cfg):
     path = C.PROCESSED / f"weekly_features_{pid}.csv"
     if not path.exists():
@@ -116,13 +116,17 @@ def product_block(pid, cfg):
                                   if hist["average"] else None),
         "recent_weeks": [{"week_end": i.date().isoformat(), "price_mid": r1(v)}
                          for i, v in recent["price_mid"].items()],
+        # ราคาจริงทุกสัปดาห์ที่มีข้อมูล (ให้เว็บเลือกช่วงวันดูย้อนหลังได้)
+        "history": [{"week_end": i.date().isoformat(), "price_mid": r1(r["price_mid"]),
+                     "price_min": r1(r["price_min"]), "price_max": r1(r["price_max"])}
+                    for i, r in df[df["observed"] == 1].iterrows()],
     }
     if age > STALE_DAYS:
         block["warning_th"] = (f"ราคาล่าสุดเก่า {age} วัน น่าจะอยู่นอกฤดูของ{cfg['name']} "
                                "ตัวเลขพยากรณ์ใช้อ้างอิงไม่ได้จนกว่าฤดูใหม่จะเริ่ม")
     return block
-
-
+ 
+ 
 if __name__ == "__main__":
     products = [b for pid, cfg in C.TARGETS.items() if (b := product_block(pid, cfg))]
     out = {
@@ -152,3 +156,4 @@ if __name__ == "__main__":
                   f"(ปีนี้ {p['vs_previous_years_pct']:+.1f}%)")
         if "warning_th" in p:
             print(f"  ⚠ {p['warning_th']}")
+ 

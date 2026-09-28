@@ -1,0 +1,11 @@
+streamlit>=1.50
+pandas
+altair
+requests
+pillow
+python-dotenv
+google-genai
+firebase-admin
+google-cloud-firestore
+
+openai

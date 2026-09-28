@@ -105,9 +105,31 @@ class ForecastService:
         }
 
     @staticmethod
-    def get_price_history(name: str = "หมอนทอง"):
-        """ราคา 12 สัปดาห์ล่าสุด สำหรับทำกราฟ — คอลัมน์: week_end, price_mid"""
-        return pd.DataFrame(ForecastService._product(name)["recent_weeks"])
+    def get_price_history(name: str = "หมอนทอง", start=None, end=None):
+        """ราคาจริงรายสัปดาห์ — คอลัมน์: week_end (datetime), price_mid, price_min, price_max
+        ถ้า forecast.json มี "history" (run_all.py รุ่นใหม่) จะได้ย้อนหลังทุกปี ไม่งั้นได้ 12 สัปดาห์ล่าสุด"""
+        p = ForecastService._product(name)
+        df = pd.DataFrame(p.get("history") or p["recent_weeks"])
+        df["week_end"] = pd.to_datetime(df["week_end"])
+        if start is not None:
+            df = df[df["week_end"] >= pd.Timestamp(start)]
+        if end is not None:
+            df = df[df["week_end"] <= pd.Timestamp(end) + pd.Timedelta(days=6)]
+        return df.reset_index(drop=True)
+
+    @staticmethod
+    def has_full_history(name: str = "หมอนทอง"):
+        return bool(ForecastService._product(name).get("history"))
+
+    @staticmethod
+    def market_price_on(day, name: str = "หมอนทอง", max_gap_days: int = 10):
+        """ราคาขายส่ง กทม. ของสัปดาห์ที่ใกล้วันที่ day ที่สุด (ถ้าห่างเกิน max_gap_days คืน None)"""
+        h = ForecastService.get_price_history(name)
+        if h.empty or day is None or pd.isna(day):
+            return None
+        gap = (h["week_end"] - pd.Timestamp(day)).abs()
+        i = gap.idxmin()
+        return float(h.loc[i, "price_mid"]) if gap[i].days <= max_gap_days else None
 
     @staticmethod
     def estimate_revenue(kg: float, name: str = "หมอนทอง", price_ratio: float = 1.0):
@@ -142,17 +164,3 @@ class ForecastService:
         except Exception:
             lines.append("- อากาศ: ดึงข้อมูลไม่ได้ในขณะนี้")
         return "\n".join(lines)
-
-
-if __name__ == "__main__":
-    fs = ForecastService
-    print("== ช่วงราคาล่วงหน้า ==")
-    print(fs.get_durian_price_forecast())
-    print("\n== การ์ดราคา ==")
-    print(fs.get_price_card())
-    print("\n== รายได้ถ้าขาย 1,000 กก. ==")
-    print(fs.estimate_revenue(1000))
-    print("\n== พยากรณ์ฝน 5 วันแรก ==")
-    print(fs.get_weather_forecast().head())
-    print("\n== บริบทให้ Gemini ==")
-    print(fs.context_for_gemini())

@@ -1,0 +1,24 @@
+# ธีมสว่าง/มืด — ผู้ใช้สลับได้จากปุ่มบนหน้าเว็บ (ค่าเริ่มต้นตามเครื่องของผู้ใช้)
+[theme.light]
+primaryColor = "#16a34a"
+backgroundColor = "#f3f7f4"
+secondaryBackgroundColor = "#e8f1eb"
+textColor = "#0f2417"
+
+[theme.light.sidebar]
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f1f6f2"
+
+[theme.dark]
+primaryColor = "#22c55e"
+backgroundColor = "#07110b"
+secondaryBackgroundColor = "#0f1d14"
+textColor = "#e8f5ec"
+
+[theme.dark.sidebar]
+backgroundColor = "#09140d"
+secondaryBackgroundColor = "#0f1d14"
+
+[client]
+# ต้องเป็น "viewer" ปุ่มสลับธีมจึงทำงาน (ส่วนหัวของ Streamlit ถูกซ่อนด้วย CSS อยู่แล้ว)
+toolbarMode = "viewer"

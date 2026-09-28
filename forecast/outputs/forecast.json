@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-27T15:36:56",
+  "generated_at": "2026-09-28T20:29:42",
   "products": [
     {
       "product_id": "W14021",
@@ -12,7 +12,7 @@
         "price_min": 100.0,
         "price_max": 120.0,
         "week_of_season": 23,
-        "days_old": 0,
+        "days_old": 1,
         "in_season": true
       },
       "price_range": [
@@ -135,7 +135,7 @@
         "price_min": 75.0,
         "price_max": 85.0,
         "week_of_season": 14,
-        "days_old": 49,
+        "days_old": 50,
         "in_season": false
       },
       "price_range": [
@@ -243,7 +243,7 @@
           "price_mid": 80.0
         }
       ],
-      "warning_th": "ราคาล่าสุดเก่า 49 วัน น่าจะอยู่นอกฤดูของชะนี ตัวเลขพยากรณ์ใช้อ้างอิงไม่ได้จนกว่าฤดูใหม่จะเริ่ม"
+      "warning_th": "ราคาล่าสุดเก่า 50 วัน น่าจะอยู่นอกฤดูของชะนี ตัวเลขพยากรณ์ใช้อ้างอิงไม่ได้จนกว่าฤดูใหม่จะเริ่ม"
     }
   ],
   "notes_th": [

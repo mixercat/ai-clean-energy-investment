@@ -12,7 +12,22 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-FORECAST_PATH = Path(os.getenv("FORECAST_JSON_PATH", "../forecast/outputs/forecast.json"))
+WEB_DIR = Path(__file__).resolve().parent
+
+
+def _find_forecast():
+    """หา forecast.json: ค่าใน .env/Secrets -> web/data/forecast.json -> ../forecast/outputs/forecast.json
+    (อ้างอิงจากตำแหน่งไฟล์นี้ จึงใช้ได้ทั้งตอนรันในโฟลเดอร์ web และบน Streamlit Cloud ที่รันจากโฟลเดอร์บนสุด)"""
+    cands = []
+    env = os.getenv("FORECAST_JSON_PATH")
+    if env:
+        p = Path(env)
+        cands += [p] if p.is_absolute() else [WEB_DIR / p, Path.cwd() / p]
+    cands += [WEB_DIR / "data" / "forecast.json", WEB_DIR.parent / "forecast" / "outputs" / "forecast.json"]
+    return next((c for c in cands if c.exists()), cands[0])
+
+
+FORECAST_PATH = _find_forecast()
 HEAVY_RAIN_MM = 20          # ฝนต่อวันเกินนี้ = ฝนหนัก
 _cache = {"mtime": None, "data": None, "weather": {}}
 
@@ -58,10 +73,13 @@ class ForecastService:
     @staticmethod
     def _load():
         """อ่าน forecast.json อ่านใหม่อัตโนมัติเมื่อไฟล์ถูกอัปเดต"""
+        global FORECAST_PATH
+        if not FORECAST_PATH.exists():
+            FORECAST_PATH = _find_forecast()
         if not FORECAST_PATH.exists():
             raise FileNotFoundError(
-                f"ไม่พบ {FORECAST_PATH} — รัน `python run_all.py` ในโฟลเดอร์ forecast ก่อน "
-                "หรือแก้ FORECAST_JSON_PATH ใน .env")
+                "ไม่พบไฟล์ forecast.json — รัน `python run_all.py` ในโฟลเดอร์ forecast "
+                "(ถ้าใช้ Streamlit Cloud ต้อง push ไฟล์ forecast/outputs/forecast.json ขึ้น GitHub ด้วย)")
         mtime = FORECAST_PATH.stat().st_mtime
         if _cache["mtime"] != mtime:
             _cache["data"] = json.loads(FORECAST_PATH.read_text(encoding="utf-8"))

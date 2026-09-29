@@ -15,6 +15,23 @@ from PIL import Image
 
 load_dotenv()
 
+
+def _load_cloud_secrets():
+    """Streamlit Community Cloud ไม่มีไฟล์ .env -> คัดลอกค่าจากหน้า Secrets เข้า os.environ
+    (ค่าที่เป็นตาราง เช่น [firebase_service_account] จะถูกอ่านตรงจาก st.secrets ใน firebase_auth.py)"""
+    try:
+        for k, v in st.secrets.items():
+            if isinstance(v, (str, int, float, bool)) and k not in os.environ:
+                os.environ[k] = str(v)
+    except Exception:   # noqa: BLE001  ไม่มีไฟล์ secrets (รันในเครื่อง) -> ใช้ .env ตามเดิม
+        pass
+    os.environ.setdefault("TZ", "Asia/Bangkok")        # เซิร์ฟเวอร์ cloud ใช้เวลา UTC -> ตั้งเป็นเวลาไทย
+    if hasattr(__import__("time"), "tzset"):
+        __import__("time").tzset()
+
+
+_load_cloud_secrets()
+
 st.set_page_config(page_title="DurianOS | สมุดบัญชีสวนทุเรียน", page_icon=":material/eco:", layout="wide",
                    initial_sidebar_state="expanded")
 

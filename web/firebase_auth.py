@@ -53,9 +53,20 @@ class FirebaseAuthService:
     def __init__(self):
         # Firestore: init ครั้งเดียว แต่ต้องตั้ง self.db ทุกครั้ง (Streamlit สร้าง object ใหม่ทุกครั้งที่กดปุ่ม)
         if not firebase_admin._apps:
-            cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
-            if os.path.exists(cred_path):
-                firebase_admin.initialize_app(credentials.Certificate(cred_path))
+            cred = None
+            try:        # Streamlit Cloud: วางเนื้อหา serviceAccountKey.json ใน Secrets หัวข้อ [firebase_service_account]
+                if "firebase_service_account" in st.secrets:
+                    cred = credentials.Certificate(dict(st.secrets["firebase_service_account"]))
+            except Exception:   # noqa: BLE001  ไม่มี secrets (รันในเครื่อง)
+                pass
+            if cred is None:
+                cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
+                if not os.path.isabs(cred_path) and not os.path.exists(cred_path):
+                    cred_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), cred_path)
+                if os.path.exists(cred_path):
+                    cred = credentials.Certificate(cred_path)
+            if cred is not None:
+                firebase_admin.initialize_app(cred)
         self.db = firestore.client() if firebase_admin._apps else None
 
     # ------------------------------------------------------------------ Firebase Auth

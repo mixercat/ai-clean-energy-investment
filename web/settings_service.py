@@ -5,9 +5,9 @@
 """
 import os
 from pathlib import Path
- 
+
 import streamlit as st
- 
+
 # จังหวัดที่ปลูกทุเรียนมาก (พิกัดตัวเมือง ใช้ดึงพยากรณ์อากาศ)
 PROVINCES = {
     "จันทบุรี": (12.6114, 102.1039), "ระยอง": (12.6814, 101.2816), "ตราด": (12.2428, 102.5175),
@@ -19,11 +19,11 @@ PROVINCES = {
 DEFAULT_PROVINCE = "จันทบุรี"
 KEY_FIELDS = ["gemini_key", "groq_key", "azure_key"]          # ช่องที่ต้องเข้ารหัส
 PLAIN_FIELDS = ["gemini_model", "azure_endpoint", "azure_deployment"]
- 
- 
+
+
 SECRET_FILE = Path(__file__).with_name(".app_secret.key")
- 
- 
+
+
 def _fernet():
     """กุญแจเข้ารหัส API key: ใช้ APP_SECRET_KEY ใน .env ถ้ามี ไม่งั้นสร้างไฟล์ .app_secret.key ให้เองครั้งแรก
     (ห้ามลบ/แชร์ไฟล์นี้ ถ้าหาย key ที่ผู้ใช้บันทึกไว้จะถอดรหัสไม่ได้ ผู้ใช้ต้องใส่ใหม่)"""
@@ -40,31 +40,31 @@ def _fernet():
         return Fernet(secret.encode())
     except Exception:   # noqa: BLE001  key ผิดรูปแบบ / เขียนไฟล์ไม่ได้
         return None
- 
- 
+
+
 def can_persist_keys():
     return _fernet() is not None
- 
- 
+
+
 def server_keys_allowed():
     """ALLOW_SERVER_KEYS=false -> ผู้ใช้ทุกคนต้องใส่ key ของตัวเอง (เหมาะตอนขายให้คนอื่น)"""
     return os.getenv("ALLOW_SERVER_KEYS", "true").strip().lower() not in ("0", "false", "no")
- 
- 
+
+
 def mask(key):
     return "" if not key else (key[:4] + "••••" + key[-4:] if len(key) > 10 else "••••")
- 
- 
+
+
 class SettingsService:
     def __init__(self, db, uid):
         self.db = db
         self.uid = uid
         self._skey = f"ledger_settings_{uid}"      # ขึ้นต้น ledger_ เพื่อให้ถูกล้างตอน logout
         self._keys_skey = f"ai_keys_{uid}"         # key ที่จำไว้แค่ใน session (กรณีไม่มี APP_SECRET_KEY)
- 
+
     def _doc(self):
         return self.db.collection("users").document(self.uid)
- 
+
     # ------------------------------------------------------------------ อ่าน
     def load(self):
         if self._skey in st.session_state:
@@ -92,14 +92,14 @@ class SettingsService:
         s["ai"].update({k: v for k, v in st.session_state.get(self._keys_skey, {}).items() if v})
         st.session_state[self._skey] = s
         return dict(s)
- 
+
     def user_ai_keys(self):
         """dict ของ key ที่ผู้ใช้ใส่เอง หรือ None ถ้ายังไม่ได้ใส่ key ใดเลย"""
         ai = self.load()["ai"]
         has_any = ai.get("gemini_key") or ai.get("groq_key") or (
             ai.get("azure_key") and ai.get("azure_endpoint") and ai.get("azure_deployment"))
         return dict(ai) if has_any else None
- 
+
     # ------------------------------------------------------------------ บันทึก
     def save_farm(self, farm_name, province, lat, lon):
         s = self.load()
@@ -108,7 +108,7 @@ class SettingsService:
         if self.db is not None:
             self._doc().set({"farm_name": farm_name,
                              "settings": {"province": province, "lat": float(lat), "lon": float(lon)}}, merge=True)
- 
+
     def save_ai(self, ai):
         """ai: dict ของค่าที่ผู้ใช้กรอก (ค่าว่าง = ลบ) -> True ถ้าจำ key ข้ามการเข้าสู่ระบบได้"""
         ai = {k: (v or "").strip() for k, v in ai.items()}
@@ -125,7 +125,6 @@ class SettingsService:
         # ไม่มี APP_SECRET_KEY หรือไม่ได้เชื่อม Firestore -> จำไว้แค่ session นี้ (ไม่บันทึก key แบบไม่เข้ารหัส)
         st.session_state[self._keys_skey] = {k: v for k, v in ai.items() if v}
         return False
- 
+
     def clear_ai(self):
         return self.save_ai({k: "" for k in KEY_FIELDS + PLAIN_FIELDS})
- 

@@ -633,15 +633,6 @@ with st.sidebar:
     st.markdown(f'<div class="side-user"><div class="avatar">{initials}</div><div>'
                 f'<div class="em">{user.get("farm_name", "สวนของฉัน")}</div>'
                 f'<div class="fm">{user["email"]}</div></div></div>', unsafe_allow_html=True)
-    rows = [("location_on", f"จังหวัด{PROVINCE}"),
-            ("key" if user_keys else "smart_toy", ai_mode),
-            ("cloud_done" if ledger.persistent else "cloud_off",
-             "บันทึกข้อมูลบนคลาวด์" if ledger.persistent else "ยังไม่เชื่อมฐานข้อมูล (ข้อมูลไม่ถาวร)")]
-    if forecast_err is None:
-        rows.append(("update", f"ราคาล่าสุด {th_date(card_main['as_of'])}"))
-    st.markdown('<div class="side-sec">สถานะ</div>'
-                + "".join(f'<div class="side-row">{icon(i)}{t}</div>' for i, t in rows), unsafe_allow_html=True)
-    st.write("")
     if st.button("ออกจากระบบ", icon=":material/logout:", width="stretch"):
         auth.logout()
 
@@ -1661,3 +1652,4 @@ with tab_set:
         st.caption(("key ถูกเข้ารหัสก่อนเก็บในฐานข้อมูล และไม่แสดงเต็มบนหน้าจอ · " if can_persist_keys() else
                     "key ไม่ถูกบันทึกลงฐานข้อมูล และไม่แสดงเต็มบนหน้าจอ · ")
                    + "ค่าใช้จ่ายการเรียก AI จะคิดกับบัญชีเจ้าของ key")
+

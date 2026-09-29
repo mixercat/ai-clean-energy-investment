@@ -53,6 +53,29 @@ class LedgerService:
         st.session_state.setdefault(self._key, []).append({**entry, "id": tid})
         return tid
 
+    def add_many(self, entries, source="import"):
+        """นำเข้าหลายรายการทีเดียว (Firestore ใช้ batch ครั้งละไม่เกิน 500) -> จำนวนที่บันทึก"""
+        now = datetime.now().isoformat(timespec="seconds")
+        clean = []
+        for e in entries:
+            e = {c: e.get(c) for c in COLUMNS if c != "id"}
+            e["date"] = pd.to_datetime(e["date"]).strftime("%Y-%m-%d")
+            e["amount"] = float(e["amount"] or 0)
+            if e.get("weight_kg") is not None and pd.isna(e["weight_kg"]):
+                e["weight_kg"] = None
+            e["source"], e["created_at"] = source, now
+            clean.append(e)
+        if self.persistent:
+            for i in range(0, len(clean), 450):
+                batch = self.db.batch()
+                for e in clean[i:i + 450]:
+                    batch.set(self._col().document(), e)
+                batch.commit()
+        else:
+            store = st.session_state.setdefault(self._key, [])
+            store.extend({**e, "id": uuid.uuid4().hex[:10]} for e in clean)
+        return len(clean)
+
     def delete(self, tid, image_path=None):
         if self.persistent:
             self._col().document(tid).delete()
@@ -62,7 +85,7 @@ class LedgerService:
         if image_path and Path(image_path).exists():
             Path(image_path).unlink()
 
-    # ------------------------------------------------------------------ รูปภาพ
+    # ------------------------------------------------------------------ ไฟล์แนบ (รูป / PDF / Word / Excel)
     def save_image(self, uploaded_file):
         folder = UPLOAD_ROOT / self.uid
         folder.mkdir(parents=True, exist_ok=True)

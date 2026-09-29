@@ -49,7 +49,10 @@ class ForecastService:
         df = ForecastService.get_weather_forecast(lat, lon)
         heavy = df.loc[df["heavy_rain"], "date"].tolist()
         text = f"14 วันข้างหน้า ฝนรวมประมาณ {df['rain_mm'].fillna(0).sum():.0f} มม."
-        return text + (f" มีฝนหนักวันที่ {', '.join(heavy)}" if heavy else " ไม่มีวันที่ฝนหนัก")
+        text += (f" มีฝนหนักวันที่ {', '.join(heavy)}" if heavy else " ไม่มีวันที่ฝนหนัก")
+        days = [f"{r.date}: ฝน {r.rain_mm or 0:.0f} มม. โอกาสฝน {r.rain_chance or 0:.0f}% "
+                f"อุณหภูมิ {r.tmin or 0:.0f}-{r.tmax or 0:.0f}°C" for r in df.head(7).itertuples()]
+        return text + "\n  รายวัน 7 วันข้างหน้า (ใช้แนะนำวันพ่นยา/ใส่ปุ๋ย):\n  " + "\n  ".join(days)
 
     # ------------------------------------------------------------------ ราคาทุเรียน
     @staticmethod
@@ -143,6 +146,43 @@ class ForecastService:
                 "mid": round(kg * c["price_now"] * price_ratio),
                 "high": round(kg * c["next_week_high"] * price_ratio)}
 
+    @staticmethod
+    def seasonal_profile(name: str = "หมอนทอง", years: int = 5):
+        """ราคาเฉลี่ยรายเดือนของ N ฤดูล่าสุด (ไม่รวมปีนี้) + ปีนี้ -> DataFrame month, avg, this_year"""
+        h = ForecastService.get_price_history(name)
+        if h.empty:
+            return pd.DataFrame()
+        h = h.assign(year=h["week_end"].dt.year, month=h["week_end"].dt.month)
+        this = int(h["year"].max())
+        past = h[(h["year"] < this) & (h["year"] >= this - years)]
+        prof = past.groupby("month")["price_mid"].mean().rename("avg").to_frame()
+        prof["this_year"] = h[h["year"] == this].groupby("month")["price_mid"].mean()
+        return prof.reset_index()
+
+    @staticmethod
+    def price_trend_text(name: str = "หมอนทอง"):
+        """สรุปแนวโน้มราคาจากข้อมูลจริง สำหรับให้ AI ใช้ตอบเรื่องแนวโน้ม"""
+        months = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
+        prof = ForecastService.seasonal_profile(name)
+        if prof.empty or prof["avg"].isna().all():
+            return ""
+        p = prof.dropna(subset=["avg"])
+        hi, lo = p.loc[p["avg"].idxmax()], p.loc[p["avg"].idxmin()]
+        lines = [f"- แนวโน้มตามฤดูของ{name} (ค่าเฉลี่ยราคาขายส่ง กทม. 5 ฤดูก่อนหน้า): "
+                 + ", ".join(f"{months[int(r.month) - 1]} {r.avg:.0f}" for r in p.itertuples())
+                 + f" บาท/กก. — มักสูงสุดเดือน{months[int(hi.month) - 1]} ต่ำสุดเดือน{months[int(lo.month) - 1]}"]
+        cmp_ = p.dropna(subset=["this_year"])
+        if not cmp_.empty:
+            lines.append("- ปีนี้เทียบค่าเฉลี่ยเดือนเดียวกัน: " + ", ".join(
+                f"{months[int(r.month) - 1]} {r.this_year:.0f} ({(r.this_year / r.avg - 1) * 100:+.0f}%)"
+                for r in cmp_.itertuples()))
+        h = ForecastService.get_price_history(name).tail(5)
+        if len(h) >= 2:
+            chg = (h["price_mid"].iloc[-1] / h["price_mid"].iloc[0] - 1) * 100
+            lines.append(f"- {len(h) - 1} สัปดาห์ล่าสุดของข้อมูล ราคาเปลี่ยน {chg:+.1f}% "
+                         f"({h['price_mid'].iloc[0]:.0f} -> {h['price_mid'].iloc[-1]:.0f} บาท/กก.)")
+        return "\n".join(lines)
+
     # ------------------------------------------------------------------ บริบทให้ Gemini
     @staticmethod
     def context_for_gemini(lat: float = 12.6114, lon: float = 102.1039):
@@ -158,6 +198,12 @@ class ForecastService:
             if c["warning"]:
                 line += f" [หมายเหตุ: {c['warning']}]"
             lines.append(line)
+            try:
+                trend = ForecastService.price_trend_text(p["name"])
+                if trend:
+                    lines.append(trend)
+            except Exception:   # noqa: BLE001
+                pass
         lines += [f"- {n}" for n in data["notes_th"]]
         try:
             lines.append(f"- อากาศ: {ForecastService.weather_summary_th(lat, lon)}")

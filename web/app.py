@@ -625,6 +625,10 @@ try:
 except Exception as e:   # noqa: BLE001
     card_main, forecast_err = None, str(e)
 
+if st.session_state.get("_fb_db_error"):
+    note(f"เชื่อมฐานข้อมูล Firestore ไม่ได้ — {st.session_state['_fb_db_error']} "
+         "(เข้าสู่ระบบได้ แต่ข้อมูลอาจไม่ถูกบันทึกถาวร)", "red")
+
 # ---------------------------------------------------------------- sidebar
 with st.sidebar:
     st.markdown(f'<div class="side-brand"><div class="logo">{icon("eco")}</div>'

@@ -72,10 +72,12 @@ class SettingsService:
         raw = {}
         if self.db is not None:
             try:
-                snap = self._doc().get(timeout=8)
+                from firebase_auth import fs_call
+                snap = fs_call(lambda: self._doc().get(timeout=8))
                 raw = (snap.to_dict() or {}).get("settings", {}) if snap.exists else {}
             except Exception as e:   # noqa: BLE001
-                print(f"[firebase] อ่านการตั้งค่าไม่ได้: {e!r}")
+                from firebase_auth import _db_error
+                _db_error(e)
         s = {"province": raw.get("province", DEFAULT_PROVINCE),
              "lat": raw.get("lat"), "lon": raw.get("lon"), "ai": {}}
         if s["lat"] is None or s["lon"] is None:

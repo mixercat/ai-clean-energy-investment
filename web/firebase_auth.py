@@ -96,7 +96,10 @@ def _db_error(e):
     """บันทึกปัญหา Firestore ไว้แสดงบนหน้าเว็บ + log (Manage app)"""
     msg = str(e)
     print(f"[firebase] Firestore ใช้ไม่ได้: {e!r}")
-    if "PermissionDenied" in type(e).__name__ or "403" in msg or "permission" in msg.lower():
+    if "invalid_grant" in msg or "JWT" in msg:
+        hint = ("private_key ใน Secrets ไม่ถูกต้อง หรือ key นี้ถูกลบ/สร้างใหม่ไปแล้ว — "
+                "แนะนำวางทั้งไฟล์ serviceAccountKey.json เป็น FIREBASE_SERVICE_ACCOUNT_JSON")
+    elif "PermissionDenied" in type(e).__name__ or "403" in msg or "permission" in msg.lower():
         hint = "service account ไม่มีสิทธิ์ หรือเป็นของคนละโปรเจกต์กับ FIREBASE_API_KEY"
     elif "NotFound" in type(e).__name__ or "404" in msg or "does not exist" in msg:
         hint = "ยังไม่ได้สร้าง Firestore Database ในโปรเจกต์นี้ (Firebase Console → Build → Firestore Database → Create)"
@@ -108,19 +111,35 @@ def _db_error(e):
 
 
 def _service_account_info():
-    """เนื้อหา service account: Secrets [firebase_service_account] ก่อน แล้วค่อยไฟล์ serviceAccountKey.json"""
+    """เนื้อหา service account จาก (เรียงตามลำดับ):
+    1) Secrets FIREBASE_SERVICE_ACCOUNT_JSON = '''วางเนื้อหาไฟล์ json ทั้งไฟล์'''   <- แนะนำ วางง่าย ไม่พัง
+    2) Secrets หัวข้อ [firebase_service_account]
+    3) ไฟล์ serviceAccountKey.json (รันในเครื่อง)"""
+    info = None
+    raw = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON", "")
     try:
-        if "firebase_service_account" in st.secrets:
-            return dict(st.secrets["firebase_service_account"])
+        raw = raw or st.secrets.get("FIREBASE_SERVICE_ACCOUNT_JSON", "")
+        if not raw and "firebase_service_account" in st.secrets:
+            info = dict(st.secrets["firebase_service_account"])
     except Exception:   # noqa: BLE001  รันในเครื่อง ไม่มีไฟล์ secrets
         pass
-    path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
-    if not os.path.isabs(path) and not os.path.exists(path):
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
-    if os.path.exists(path):
-        with open(path, encoding="utf-8") as fh:
-            return json.load(fh)
-    return None
+    if raw and not info:
+        try:
+            info = json.loads(raw)
+        except ValueError as e:
+            st.session_state["_fb_cred_error"] = f"FIREBASE_SERVICE_ACCOUNT_JSON ไม่ใช่ JSON ที่ถูกต้อง ({e})"
+            return None
+    if not info:
+        path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
+        if not os.path.isabs(path) and not os.path.exists(path):
+            path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as fh:
+                info = json.load(fh)
+    if info and info.get("private_key"):
+        # แก้กรณีวางแล้ว \n กลายเป็นตัวอักษร \ กับ n แทนการขึ้นบรรทัดใหม่ (สาเหตุ Invalid JWT Signature ที่พบบ่อย)
+        info["private_key"] = info["private_key"].replace("\\n", "\n").strip() + "\n"
+    return info
 
 
 @st.cache_resource(show_spinner=False)

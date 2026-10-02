@@ -33,7 +33,12 @@ class LedgerService:
     # ------------------------------------------------------------------ อ่าน/เขียน
     def list(self):
         if self.persistent:
-            rows = [{**d.to_dict(), "id": d.id} for d in self._col().stream()]
+            try:
+                rows = [{**d.to_dict(), "id": d.id} for d in self._col().stream(timeout=15)]
+            except Exception as e:   # noqa: BLE001
+                print(f"[firebase] อ่านบัญชีไม่ได้: {e!r}")
+                st.error(f"อ่านข้อมูลบัญชีจาก Firestore ไม่ได้: {str(e)[:160]}")
+                rows = []
         else:
             rows = list(st.session_state.get(self._key, []))
         df = pd.DataFrame(rows, columns=COLUMNS) if rows else pd.DataFrame(columns=COLUMNS)

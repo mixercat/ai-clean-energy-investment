@@ -600,6 +600,7 @@ if not st.session_state.user:
                         '<div class="auth-form-sub">ใช้อีเมลและรหัสผ่านที่สมัครไว้ หรือสมัครสมาชิกใหม่</div>',
                         unsafe_allow_html=True)
             auth.render_forms()
+        auth.render_diagnostics()
     st.stop()
 
 # ====================================================================== LOGGED IN

@@ -35,7 +35,7 @@ _load_cloud_secrets()
 st.set_page_config(page_title="DurianOS | สมุดบัญชีสวนทุเรียน", page_icon=":material/eco:", layout="wide",
                    initial_sidebar_state="expanded")
 
-from firebase_auth import FirebaseAuthService          # noqa: E402  (ต้อง import หลัง set_page_config)
+from firebase_auth import FirebaseAuthService, firestore_ok          # noqa: E402  (ต้อง import หลัง set_page_config)
 from forecast_service import ForecastService           # noqa: E402
 from file_import import (UPLOAD_TYPES, TYPE_MODES, apply_header, build_entries,  # noqa: E402
                          docx_text, file_kind, guess_columns, guess_header_row, is_image_path,
@@ -605,10 +605,11 @@ if not st.session_state.user:
 
 # ====================================================================== LOGGED IN
 user = st.session_state.user
-ledger = LedgerService(auth.db, user["uid"])
+db = auth.db if firestore_ok() else None       # Firestore มีปัญหา -> ใช้โหมดชั่วคราว ไม่ให้ทุกหน้าค้าง
+ledger = LedgerService(db, user["uid"])
 df_tx = ledger.list()
 summary = LedgerService.summary(df_tx)
-settings = SettingsService(auth.db, user["uid"])
+settings = SettingsService(db, user["uid"])
 farm = settings.load()
 FARM_LAT, FARM_LON, PROVINCE = farm["lat"], farm["lon"], farm["province"]
 user_keys = settings.user_ai_keys()

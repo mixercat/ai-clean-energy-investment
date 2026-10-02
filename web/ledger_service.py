@@ -34,9 +34,11 @@ class LedgerService:
     def list(self):
         if self.persistent:
             try:
-                rows = [{**d.to_dict(), "id": d.id} for d in self._col().stream(timeout=15)]
+                from firebase_auth import fs_call
+                rows = fs_call(lambda: [{**d.to_dict(), "id": d.id} for d in self._col().stream(timeout=15)], 15)
             except Exception as e:   # noqa: BLE001
-                print(f"[firebase] อ่านบัญชีไม่ได้: {e!r}")
+                from firebase_auth import _db_error
+                _db_error(e)
                 st.error(f"อ่านข้อมูลบัญชีจาก Firestore ไม่ได้: {str(e)[:160]}")
                 rows = []
         else:

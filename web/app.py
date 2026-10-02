@@ -37,6 +37,7 @@ st.set_page_config(page_title="DurianOS | สมุดบัญชีสวน�
 
 from firebase_auth import FirebaseAuthService, firestore_ok          # noqa: E402  (ต้อง import หลัง set_page_config)
 from forecast_service import ForecastService           # noqa: E402
+from chat_service import ChatService                  # noqa: E402
 from file_import import (UPLOAD_TYPES, TYPE_MODES, apply_header, build_entries,  # noqa: E402
                          docx_text, file_kind, guess_columns, guess_header_row, is_image_path,
                          mark_duplicates, pdf_info, read_raw, sheet_names, table_as_text)
@@ -97,7 +98,7 @@ html, body, [class*="css"], .stMarkdown, p, label, input, textarea, button, h1, 
 .ms.fill{{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;}}
 .num, .kpi .val, .stat b, .day .r{{font-variant-numeric:tabular-nums; letter-spacing:-.01em;}}
 .stApp{{color:var(--text);}}
-.block-container{{padding:1.4rem 2.25rem 3rem 2.25rem; max-width:1480px;}}
+.block-container{{padding:2.4rem 2.25rem 3rem 2.25rem; max-width:1480px;}}
 #MainMenu, footer, [data-testid="stToolbar"]{{visibility:hidden;}}
 header[data-testid="stHeader"]{{background:transparent; height:0;}}
 [data-testid="stSidebar"]{{background:var(--sidebar); border-right:1px solid var(--line);}}
@@ -183,7 +184,7 @@ html.theme-switching [data-testid="stMainMenuPopover"]{{opacity:0 !important; po
 .side-user .fm{{font-size:.76rem; color:var(--muted);}}
 .side-row{{font-size:.8rem; color:var(--text-2); padding:6px 2px; display:flex; align-items:center; gap:8px;}}
 .side-row .ms{{font-size:17px; color:var(--muted); vertical-align:0;}}
-.side-sec{{font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:14px 0 4px; font-weight:600;}}
+.side-sec{{font-size:.72rem; letter-spacing:.04em; color:var(--muted); margin:18px 0 2px; font-weight:600;}}
 /* ปุ่มสลับธีม */
 .theme-wrap{{display:flex; justify-content:flex-end; align-items:center; gap:8px;}}
 .theme-btn{{font-family:{FONT}; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;
@@ -301,6 +302,29 @@ a.qa > .ms{{margin-left:auto; color:var(--muted); vertical-align:0;}}
 .qa-ic .ms{{font-size:19px; vertical-align:0;}}
 .qa-tx b{{display:block; font-size:.86rem; font-weight:600;}} .qa-tx span{{font-size:.74rem; color:var(--muted);}}
 @media (max-width: 1100px){{ .hero{{grid-template-columns:1fr;}} }}
+/* ---------- แถบด้านข้าง ---------- */
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"]{{gap:.45rem;}}
+.side-empty{{font-size:.8rem; color:var(--muted); padding:2px 4px 6px;}}
+.st-key-side-chats [data-testid="stVerticalBlock"]{{gap:2px;}}
+.st-key-side-chats .stButton>button{{min-height:34px; justify-content:flex-start; padding:4px 8px; border-radius:8px;}}
+.st-key-side-chats .stButton>button p{{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:.84rem;
+  font-weight:400; text-align:left;}}
+.st-key-side-chats .stButton>button[kind="tertiary"]:hover{{background:var(--card-2);}}
+.st-key-side-chats .stButton>button[kind="secondary"]{{background:var(--accent-bg); border-color:var(--accent-bd);}}
+.st-key-side-chats [class*="st-key-chatdel"] button{{justify-content:center; padding:4px; color:var(--muted); opacity:.6;}}
+.st-key-side-chats [class*="st-key-chatdel"] button:hover{{opacity:1; color:var(--red);}}
+.side-tx{{display:flex; align-items:center; gap:8px; padding:6px 4px; font-size:.8rem; border-bottom:1px solid var(--line);}}
+.side-tx:last-of-type{{border-bottom:none;}}
+.side-tx .sd{{width:6px; height:6px; border-radius:50%; flex-shrink:0;}}
+.side-tx .sd.in{{background:var(--green);}} .side-tx .sd.out{{background:var(--muted);}}
+.side-tx .st{{flex:1; min-width:0; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}}
+.side-tx .st small{{color:var(--muted); margin-left:6px;}}
+.side-tx b{{font-weight:600; font-variant-numeric:tabular-nums;}} .side-tx b.in{{color:var(--green);}}
+.side-link{{display:inline-flex; align-items:center; gap:3px; font-size:.8rem; margin:6px 4px 0;
+  color:var(--green) !important; text-decoration:none !important;}}
+.side-link .ms{{font-size:16px; vertical-align:0;}}
+[data-testid="stSidebarCollapseButton"], [data-testid="stExpandSidebarButton"],
+[data-testid="stSidebarCollapsedControl"]{{visibility:visible !important; opacity:1 !important;}}
 </style>
 """
 # Streamlit จะแสดง CSS เป็นข้อความถ้ามีบรรทัดว่าง จึงตัดบรรทัดว่างออกอัตโนมัติ
@@ -631,7 +655,18 @@ if st.session_state.get("_fb_db_error"):
     note(f"เชื่อมฐานข้อมูล Firestore ไม่ได้ — {st.session_state['_fb_db_error']} "
          "(เข้าสู่ระบบได้ แต่ข้อมูลอาจไม่ถูกบันทึกถาวร)", "red")
 
-# ---------------------------------------------------------------- sidebar
+# ---------------------------------------------------------------- sidebar (เปิด/ปิดได้ด้วยปุ่ม « / »)
+chats = ChatService(db, user["uid"])
+chat_key, cur_key = f"chat_{user['uid']}", f"chat_cur_{user['uid']}"
+TAB_AI = 4
+
+
+def open_chat(chat_id):
+    st.session_state[cur_key] = chat_id
+    st.session_state[chat_key] = chats.messages(chat_id) if chat_id else []
+    st.session_state.goto_tab = TAB_AI
+
+
 with st.sidebar:
     st.markdown(f'<div class="side-brand"><div class="logo">{icon("eco")}</div>'
                 '<div><b>DurianOS</b><span>สมุดบัญชีสวนทุเรียน</span></div></div>', unsafe_allow_html=True)
@@ -639,7 +674,44 @@ with st.sidebar:
     st.markdown(f'<div class="side-user"><div class="avatar">{initials}</div><div>'
                 f'<div class="em">{user.get("farm_name", "สวนของฉัน")}</div>'
                 f'<div class="fm">{user["email"]}</div></div></div>', unsafe_allow_html=True)
-    if st.button("ออกจากระบบ", icon=":material/logout:", width="stretch"):
+
+    if st.button("แชทใหม่", icon=":material/add_comment:", type="primary", width="stretch", key="side_new_chat"):
+        open_chat(None)
+        st.rerun()
+
+    st.markdown('<div class="side-sec">ประวัติการสนทนา</div>', unsafe_allow_html=True)
+    clist = chats.list()
+    if not clist:
+        st.markdown('<div class="side-empty">ยังไม่มีประวัติ — ลองถามผู้ช่วย AI ได้เลย</div>', unsafe_allow_html=True)
+    with st.container(key="side-chats"):
+        for c in clist:
+            active = c["id"] == st.session_state.get(cur_key)
+            a, b = st.columns([6, 1], gap=None, vertical_alignment="center")
+            if a.button(c["title"], key=f"chatopen_{c['id']}", icon=":material/chat_bubble_outline:",
+                        type="secondary" if active else "tertiary", width="stretch"):
+                open_chat(c["id"])
+                st.rerun()
+            if b.button("", key=f"chatdel_{c['id']}", icon=":material/close:", type="tertiary", help="ลบบทสนทนานี้"):
+                chats.delete(c["id"])
+                if active:
+                    open_chat(None)
+                st.rerun()
+
+    st.markdown('<div class="side-sec">รายการบัญชีล่าสุด</div>', unsafe_allow_html=True)
+    if df_tx.empty:
+        st.markdown('<div class="side-empty">ยังไม่มีรายการ</div>', unsafe_allow_html=True)
+    else:
+        rows = []
+        for _, r in df_tx.head(5).iterrows():
+            inc = r["type"] == INCOME
+            rows.append(f'<div class="side-tx"><span class="sd {"in" if inc else "out"}"></span>'
+                        f'<span class="st">{r["category"]}<small>{th_date(r["date"], False)}</small></span>'
+                        f'<b class="{"in" if inc else "out"}">{"+" if inc else "−"}{baht(r["amount"])}</b></div>')
+        st.markdown("".join(rows) + f'<a class="side-link" data-tab="1" href="#">ดูทั้งหมด {icon("arrow_forward")}</a>',
+                    unsafe_allow_html=True)
+
+    st.markdown('<div class="side-sec">บัญชีผู้ใช้</div>', unsafe_allow_html=True)
+    if st.button("ออกจากระบบ", icon=":material/logout:", width="stretch", key="side_logout"):
         auth.logout()
 
 # ---------------------------------------------------------------- header + KPI
@@ -1521,7 +1593,6 @@ with tab_ai:
                     "· AI อาจผิดพลาดได้ ควรตรวจสอบก่อนตัดสินใจ")
         if gemini_err:
             note(f"ใช้ AI ไม่ได้: {gemini_err}", "red")
-        chat_key = f"chat_{user['uid']}"
         history = st.session_state.setdefault(chat_key, [])
 
         if not history:
@@ -1571,9 +1642,13 @@ with tab_ai:
                         answer = f"**ใช้ AI ไม่ได้:** {ai_error_message(e)}"
                 st.markdown(answer)
             history.append({"role": "assistant", "content": answer})
+            if not st.session_state.get(cur_key):
+                st.session_state[cur_key] = chats.new_id()
+            chats.save(st.session_state[cur_key], history)     # บันทึกลงประวัติ (แถบด้านข้าง)
+            st.rerun()
 
-        if history and st.button("ล้างบทสนทนา"):
-            st.session_state[chat_key] = []
+        if history and st.button("เริ่มแชทใหม่", icon=":material/add_comment:"):
+            open_chat(None)
             st.rerun()
 
 # ====================================================================== TAB 5: ตั้งค่า
@@ -1659,3 +1734,13 @@ with tab_set:
                     "key ไม่ถูกบันทึกลงฐานข้อมูล และไม่แสดงเต็มบนหน้าจอ · ")
                    + "ค่าใช้จ่ายการเรียก AI จะคิดกับบัญชีเจ้าของ key")
 
+# ---------------------------------------------------------------- สลับไปแท็บที่ต้องการ (เช่น เปิดแชทจากแถบด้านข้าง)
+_goto = st.session_state.pop("goto_tab", None)
+if _goto is not None:
+    st.html(f"""<script>(() => {{
+      let n = 0; const t = setInterval(() => {{
+        const tab = document.querySelectorAll('[data-testid="stTab"]')[{_goto}];
+        if (tab || ++n > 60) {{ clearInterval(t); if (tab) ['pointerdown','mousedown','pointerup','mouseup','click']
+          .forEach(tp => tab.dispatchEvent(new (tp.startsWith('pointer') ? PointerEvent : MouseEvent)(tp,
+            {{bubbles: true, cancelable: true, view: window, button: 0, pointerId: 1, pointerType: 'mouse', isPrimary: true}}))); }}
+      }}, 50); }})(); /* {pd.Timestamp.now().value} */</script>""", unsafe_allow_javascript=True)

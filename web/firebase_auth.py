@@ -188,9 +188,13 @@ class FirebaseAuthService:
             farm_name = DEFAULT_FARM
             if self.db and firestore_ok():
                 try:     # จำกัดเวลา ไม่ให้หน้าค้างถ้าเชื่อม Firestore ไม่ได้
-                    doc = fs_call(lambda: self.db.collection("users").document(uid).get(timeout=8))
-                    if doc.exists:
-                        farm_name = doc.to_dict().get("farm_name", DEFAULT_FARM)
+                    ref = self.db.collection("users").document(uid)
+                    doc = fs_call(lambda: ref.get(timeout=8))
+                    data = doc.to_dict() if doc.exists else {}
+                    farm_name = data.get("farm_name") or DEFAULT_FARM
+                    if not doc.exists or "email" not in data:   # บัญชีที่สมัครตอนฐานข้อมูลมีปัญหา -> สร้างแฟ้มให้
+                        fs_call(lambda: ref.set({"email": d["email"], "farm_name": farm_name,
+                                                 "created_at": SERVER_TIMESTAMP}, merge=True, timeout=8))
                 except Exception as e:   # noqa: BLE001
                     _db_error(e)
         return {"uid": uid, "email": d["email"], "farm_name": farm_name,

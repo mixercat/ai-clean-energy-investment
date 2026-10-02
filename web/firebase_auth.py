@@ -1,6 +1,7 @@
 """ระบบสมาชิกด้วย Firebase Authentication (อีเมล + รหัสผ่าน) + เชื่อม Firestore
 - login / สมัครสมาชิก / ลืมรหัสผ่าน ตรวจกับ Firebase จริง (REST API ใช้ FIREBASE_API_KEY)
-- Firestore ใช้ service account (FIREBASE_CREDENTIALS_PATH) สำหรับเก็บข้อมูลสวนของผู้ใช้
+- Firestore ใช้ service account (Secrets [firebase_service_account] หรือไฟล์ serviceAccountKey.json)
+  เชื่อมผ่าน HTTPS (fs_rest.py) ไม่ใช้ gRPC เพราะ gRPC ค้างบน Streamlit Cloud
 ชื่อ class / render_login() / st.session_state.user เหมือนเดิม app.py จึงไม่ต้องแก้
 st.session_state.user = {"uid", "email", "farm_name", "id_token"}
 """
@@ -8,10 +9,12 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import TimeoutError as FutureTimeout
 
-import firebase_admin
+import json
+
 import requests
 import streamlit as st
-from firebase_admin import credentials, firestore
+
+from fs_rest import SERVER_TIMESTAMP, RestFirestore
 
 AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:{}?key={}"
 DEFAULT_FARM = "สวนของฉัน"
@@ -104,27 +107,39 @@ def _db_error(e):
     st.session_state["_fb_db_error"] = hint
 
 
+def _service_account_info():
+    """เนื้อหา service account: Secrets [firebase_service_account] ก่อน แล้วค่อยไฟล์ serviceAccountKey.json"""
+    try:
+        if "firebase_service_account" in st.secrets:
+            return dict(st.secrets["firebase_service_account"])
+    except Exception:   # noqa: BLE001  รันในเครื่อง ไม่มีไฟล์ secrets
+        pass
+    path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
+    if not os.path.isabs(path) and not os.path.exists(path):
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    return None
+
+
+@st.cache_resource(show_spinner=False)
+def _get_db():
+    info = _service_account_info()
+    if not info:
+        return None
+    try:
+        return RestFirestore(info)
+    except Exception as e:   # noqa: BLE001  private_key ผิดรูปแบบ ฯลฯ
+        print(f"[firebase] service account ใช้ไม่ได้: {e!r}")
+        st.session_state["_fb_cred_error"] = f"service account ใช้ไม่ได้: {str(e)[:150]}"
+        return None
+
+
 class FirebaseAuthService:
     def __init__(self):
-        # Firestore: init ครั้งเดียว แต่ต้องตั้ง self.db ทุกครั้ง (Streamlit สร้าง object ใหม่ทุกครั้งที่กดปุ่ม)
-        if not firebase_admin._apps:
-            cred = None
-            try:        # Streamlit Cloud: วางเนื้อหา serviceAccountKey.json ใน Secrets หัวข้อ [firebase_service_account]
-                if "firebase_service_account" in st.secrets:
-                    cred = credentials.Certificate(dict(st.secrets["firebase_service_account"]))
-            except Exception as e:   # noqa: BLE001  ไม่มี secrets (รันในเครื่อง) หรือข้อมูลใน Secrets ผิด
-                if "firebase_service_account" in str(e) or "private_key" in str(e) or "Certificate" in str(e):
-                    print(f"[firebase] อ่าน [firebase_service_account] ใน Secrets ไม่ได้: {e}")
-                    st.session_state["_fb_cred_error"] = str(e)[:200]
-            if cred is None:
-                cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
-                if not os.path.isabs(cred_path) and not os.path.exists(cred_path):
-                    cred_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), cred_path)
-                if os.path.exists(cred_path):
-                    cred = credentials.Certificate(cred_path)
-            if cred is not None:
-                firebase_admin.initialize_app(cred)
-        self.db = firestore.client() if firebase_admin._apps else None
+        # Firestore: สร้างครั้งเดียวแล้วใช้ซ้ำ (Streamlit สร้าง object นี้ใหม่ทุกครั้งที่กดปุ่ม)
+        self.db = _get_db()
 
     # ------------------------------------------------------------------ Firebase Auth
     def sign_in(self, email, password):
@@ -140,7 +155,7 @@ class FirebaseAuthService:
             try:
                 fs_call(lambda: self.db.collection("users").document(user["uid"]).set({
                     "email": user["email"], "farm_name": user["farm_name"],
-                    "created_at": firestore.SERVER_TIMESTAMP}, timeout=8))
+                    "created_at": SERVER_TIMESTAMP}, timeout=8))
             except Exception as e:   # noqa: BLE001
                 _db_error(e)
         return user

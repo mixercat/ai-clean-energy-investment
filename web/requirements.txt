@@ -5,10 +5,9 @@ requests
 pillow
 python-dotenv
 google-genai
-firebase-admin
-google-cloud-firestore
 openai
 openpyxl
 python-docx
 pypdf
 cryptography
+google-auth

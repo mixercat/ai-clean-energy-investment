@@ -5,6 +5,8 @@
 st.session_state.user = {"uid", "email", "farm_name", "id_token"}
 """
 import os
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FutureTimeout
 
 import firebase_admin
 import requests
@@ -69,6 +71,24 @@ def _auth_request(action, payload):
     return data
 
 
+_POOL = ThreadPoolExecutor(max_workers=4)
+FS_TIMEOUT = 10        # วินาที: ถ้า Firestore ไม่ตอบภายในนี้ ถือว่าใช้ไม่ได้ (ไม่ให้หน้าเว็บค้าง)
+
+
+def fs_call(fn, timeout=FS_TIMEOUT):
+    """เรียก Firestore แบบมีเวลาจำกัดจริง (timeout ของไลบรารีไม่ครอบคลุมขั้นขอสิทธิ์/ต่อเครือข่าย)"""
+    fut = _POOL.submit(fn)
+    try:
+        return fut.result(timeout=timeout)
+    except FutureTimeout:
+        raise TimeoutError(f"Firestore ไม่ตอบภายใน {timeout} วินาที") from None
+
+
+def firestore_ok():
+    """False ถ้าเคยเชื่อม Firestore ไม่ได้ในรอบนี้ -> แอปจะใช้โหมดชั่วคราวแทน ไม่รอซ้ำทุกหน้า"""
+    return not st.session_state.get("_fb_db_error")
+
+
 def _db_error(e):
     """บันทึกปัญหา Firestore ไว้แสดงบนหน้าเว็บ + log (Manage app)"""
     msg = str(e)
@@ -77,7 +97,7 @@ def _db_error(e):
         hint = "service account ไม่มีสิทธิ์ หรือเป็นของคนละโปรเจกต์กับ FIREBASE_API_KEY"
     elif "NotFound" in type(e).__name__ or "404" in msg or "does not exist" in msg:
         hint = "ยังไม่ได้สร้าง Firestore Database ในโปรเจกต์นี้ (Firebase Console → Build → Firestore Database → Create)"
-    elif "Deadline" in type(e).__name__ or "timeout" in msg.lower() or "504" in msg:
+    elif "Deadline" in type(e).__name__ or "timeout" in msg.lower() or "ไม่ตอบภายใน" in msg or "504" in msg:
         hint = "เชื่อมต่อ Firestore ไม่ทันเวลา"
     else:
         hint = msg[:150]
@@ -116,11 +136,11 @@ class FirebaseAuthService:
         d = _auth_request("signUp",
                           {"email": email, "password": password, "returnSecureToken": True})
         user = self._make_user(d, farm_name=farm_name or DEFAULT_FARM)
-        if self.db:
+        if self.db and firestore_ok():
             try:
-                self.db.collection("users").document(user["uid"]).set({
+                fs_call(lambda: self.db.collection("users").document(user["uid"]).set({
                     "email": user["email"], "farm_name": user["farm_name"],
-                    "created_at": firestore.SERVER_TIMESTAMP}, timeout=8)
+                    "created_at": firestore.SERVER_TIMESTAMP}, timeout=8))
             except Exception as e:   # noqa: BLE001
                 _db_error(e)
         return user
@@ -132,9 +152,9 @@ class FirebaseAuthService:
         uid = d["localId"]
         if farm_name is None:
             farm_name = DEFAULT_FARM
-            if self.db:
+            if self.db and firestore_ok():
                 try:     # จำกัดเวลา ไม่ให้หน้าค้างถ้าเชื่อม Firestore ไม่ได้
-                    doc = self.db.collection("users").document(uid).get(timeout=8)
+                    doc = fs_call(lambda: self.db.collection("users").document(uid).get(timeout=8))
                     if doc.exists:
                         farm_name = doc.to_dict().get("farm_name", DEFAULT_FARM)
                 except Exception as e:   # noqa: BLE001
@@ -224,15 +244,18 @@ class FirebaseAuthService:
                     out.append((False, "ตรวจรหัสผ่าน", str(e)[:150]))
             else:
                 out.append((None, "ตรวจรหัสผ่าน", "ข้าม — กรอกอีเมลและรหัสผ่านในแท็บเข้าสู่ระบบก่อน"))
+            for ok, name, msg in out:          # แสดงผลส่วนแรกก่อน เผื่อ Firestore ช้า
+                st.markdown(f"{'✅' if ok else ('➖' if ok is None else '❌')} **{name}** — {msg}")
+            shown = len(out)
             if self.db is None:
                 out.append((False, "Firestore", st.session_state.get("_fb_cred_error") or "ไม่ได้เชื่อม (ไม่มี service account)"))
             else:
                 try:
-                    self.db.collection("users").document(uid or "diagnostic").get(timeout=8)
+                    fs_call(lambda: self.db.collection("users").document(uid or "diagnostic").get(timeout=8))
                     out.append((True, "Firestore", "อ่านข้อมูลได้"))
                 except Exception as e:   # noqa: BLE001
                     out.append((False, "Firestore", f"{type(e).__name__}: {str(e)[:160]}"))
-            for ok, name, msg in out:
+            for ok, name, msg in out[shown:]:
                 st.markdown(f"{'✅' if ok else ('➖' if ok is None else '❌')} **{name}** — {msg}")
 
     def render_login(self):

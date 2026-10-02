@@ -154,8 +154,8 @@ class FirebaseAuthService:
         tab_in, tab_up, tab_reset = st.tabs(["เข้าสู่ระบบ", "สมัครสมาชิก", "ลืมรหัสผ่าน"])
 
         with tab_in, st.form("login_form", border=False):
-            email = st.text_input("อีเมล", placeholder="name@gmail.com")
-            password = st.text_input("รหัสผ่าน", type="password")
+            email = st.text_input("อีเมล", placeholder="name@gmail.com", key="li_email")
+            password = st.text_input("รหัสผ่าน", type="password", key="li_pw")
             if st.form_submit_button("เข้าสู่ระบบ", type="primary", width="stretch"):
                 if not email or not password:
                     st.error("กรุณากรอกอีเมลและรหัสผ่าน")
@@ -184,6 +184,56 @@ class FirebaseAuthService:
                     st.success("ส่งลิงก์ไปที่อีเมลแล้ว (เช็กในกล่องจดหมายขยะด้วย)")
                 except AuthError as e:
                     st.error(str(e))
+
+    def render_diagnostics(self):
+        """ตัวช่วยหาสาเหตุเมื่อเข้าสู่ระบบไม่ได้ (ไม่แสดง key เต็ม)"""
+        with st.expander("เข้าสู่ระบบไม่ได้? ตรวจระบบ", icon=":material/troubleshoot:"):
+            st.caption("ใช้อีเมลและรหัสผ่านที่กรอกในแท็บเข้าสู่ระบบ แล้วตรวจทีละขั้น")
+            if not st.button("เริ่มตรวจ", key="diag_btn", width="stretch"):
+                return
+            out = []
+            key = firebase_api_key()
+            ok_key = key.startswith("AIza") and len(key) >= 35
+            out.append((ok_key, "FIREBASE_API_KEY", f"{key[:6]}…{key[-4:]} (ยาว {len(key)} ตัว)" if key else "ไม่พบ"))
+            api_project = None
+            if key:
+                try:
+                    r = requests.get(f"https://identitytoolkit.googleapis.com/v1/projects?key={key}", timeout=10)
+                    api_project = r.json().get("projectId") if r.ok else None
+                    out.append((r.ok, "โปรเจกต์ของ API key", api_project or r.text[:150]))
+                except Exception as e:   # noqa: BLE001
+                    out.append((False, "โปรเจกต์ของ API key", str(e)[:150]))
+            sa_project = None
+            try:
+                sa_project = st.secrets.get("firebase_service_account", {}).get("project_id")
+            except Exception:   # noqa: BLE001
+                pass
+            if sa_project:
+                out.append((sa_project == api_project, "project_id ของ service account",
+                             sa_project + ("" if sa_project == api_project else " ← ไม่ตรงกับโปรเจกต์ของ API key")))
+            em, pw = st.session_state.get("li_email", "").strip(), st.session_state.get("li_pw", "")
+            uid = None
+            if em and pw and key:
+                try:
+                    r = requests.post(AUTH_URL.format("signInWithPassword", key),
+                                      json={"email": em, "password": pw, "returnSecureToken": True}, timeout=15)
+                    js = r.json()
+                    uid = js.get("localId")
+                    out.append((r.ok, "ตรวจรหัสผ่าน", "ผ่าน" if r.ok else js.get("error", {}).get("message", r.text[:150])))
+                except Exception as e:   # noqa: BLE001
+                    out.append((False, "ตรวจรหัสผ่าน", str(e)[:150]))
+            else:
+                out.append((None, "ตรวจรหัสผ่าน", "ข้าม — กรอกอีเมลและรหัสผ่านในแท็บเข้าสู่ระบบก่อน"))
+            if self.db is None:
+                out.append((False, "Firestore", st.session_state.get("_fb_cred_error") or "ไม่ได้เชื่อม (ไม่มี service account)"))
+            else:
+                try:
+                    self.db.collection("users").document(uid or "diagnostic").get(timeout=8)
+                    out.append((True, "Firestore", "อ่านข้อมูลได้"))
+                except Exception as e:   # noqa: BLE001
+                    out.append((False, "Firestore", f"{type(e).__name__}: {str(e)[:160]}"))
+            for ok, name, msg in out:
+                st.markdown(f"{'✅' if ok else ('➖' if ok is None else '❌')} **{name}** — {msg}")
 
     def render_login(self):
         """แบบเดิม: ฟอร์มใน sidebar คืนค่า True ถ้าเข้าสู่ระบบแล้ว"""

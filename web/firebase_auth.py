@@ -5,15 +5,15 @@
 st.session_state.user = {"uid", "email", "farm_name", "id_token"}
 """
 import os
- 
+
 import firebase_admin
 import requests
 import streamlit as st
 from firebase_admin import credentials, firestore
- 
+
 AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:{}?key={}"
 DEFAULT_FARM = "สวนของฉัน"
- 
+
 ERRORS_TH = {
     "EMAIL_NOT_FOUND": "ไม่พบอีเมลนี้ในระบบ",
     "INVALID_PASSWORD": "รหัสผ่านไม่ถูกต้อง",
@@ -30,12 +30,12 @@ ERRORS_TH = {
     "API key not valid. Please pass a valid API key.": "FIREBASE_API_KEY ไม่ถูกต้อง (ตรวจในหน้า Secrets)",
     "API_KEY_HTTP_REFERRER_BLOCKED": "API key ถูกจำกัดให้ใช้ได้เฉพาะบางเว็บ — ปลดการจำกัด HTTP referrer ใน Google Cloud Console",
 }
- 
- 
+
+
 class AuthError(Exception):
     pass
- 
- 
+
+
 def firebase_api_key():
     """อ่าน FIREBASE_API_KEY จาก .env หรือ Secrets (รวมกรณีเผลอวางไว้ใต้หัวข้อ [firebase_service_account])"""
     key = os.getenv("FIREBASE_API_KEY", "")
@@ -46,8 +46,8 @@ def firebase_api_key():
         except Exception:   # noqa: BLE001
             key = ""
     return str(key).strip().strip('"').strip("'")
- 
- 
+
+
 def _auth_request(action, payload):
     api_key = firebase_api_key()
     if not api_key:
@@ -67,8 +67,23 @@ def _auth_request(action, payload):
         key = code.split(" ")[0].split(":")[0]          # เช่น "WEAK_PASSWORD : ..."
         raise AuthError(ERRORS_TH.get(key, f"เข้าสู่ระบบไม่สำเร็จ ({code})"))
     return data
- 
- 
+
+
+def _db_error(e):
+    """บันทึกปัญหา Firestore ไว้แสดงบนหน้าเว็บ + log (Manage app)"""
+    msg = str(e)
+    print(f"[firebase] Firestore ใช้ไม่ได้: {e!r}")
+    if "PermissionDenied" in type(e).__name__ or "403" in msg or "permission" in msg.lower():
+        hint = "service account ไม่มีสิทธิ์ หรือเป็นของคนละโปรเจกต์กับ FIREBASE_API_KEY"
+    elif "NotFound" in type(e).__name__ or "404" in msg or "does not exist" in msg:
+        hint = "ยังไม่ได้สร้าง Firestore Database ในโปรเจกต์นี้ (Firebase Console → Build → Firestore Database → Create)"
+    elif "Deadline" in type(e).__name__ or "timeout" in msg.lower() or "504" in msg:
+        hint = "เชื่อมต่อ Firestore ไม่ทันเวลา"
+    else:
+        hint = msg[:150]
+    st.session_state["_fb_db_error"] = hint
+
+
 class FirebaseAuthService:
     def __init__(self):
         # Firestore: init ครั้งเดียว แต่ต้องตั้ง self.db ทุกครั้ง (Streamlit สร้าง object ใหม่ทุกครั้งที่กดปุ่ม)
@@ -90,37 +105,43 @@ class FirebaseAuthService:
             if cred is not None:
                 firebase_admin.initialize_app(cred)
         self.db = firestore.client() if firebase_admin._apps else None
- 
+
     # ------------------------------------------------------------------ Firebase Auth
     def sign_in(self, email, password):
         d = _auth_request("signInWithPassword",
                           {"email": email, "password": password, "returnSecureToken": True})
         return self._make_user(d)
- 
+
     def sign_up(self, email, password, farm_name):
         d = _auth_request("signUp",
                           {"email": email, "password": password, "returnSecureToken": True})
         user = self._make_user(d, farm_name=farm_name or DEFAULT_FARM)
         if self.db:
-            self.db.collection("users").document(user["uid"]).set({
-                "email": user["email"], "farm_name": user["farm_name"],
-                "created_at": firestore.SERVER_TIMESTAMP})
+            try:
+                self.db.collection("users").document(user["uid"]).set({
+                    "email": user["email"], "farm_name": user["farm_name"],
+                    "created_at": firestore.SERVER_TIMESTAMP}, timeout=8)
+            except Exception as e:   # noqa: BLE001
+                _db_error(e)
         return user
- 
+
     def reset_password(self, email):
         _auth_request("sendOobCode", {"requestType": "PASSWORD_RESET", "email": email})
- 
+
     def _make_user(self, d, farm_name=None):
         uid = d["localId"]
         if farm_name is None:
             farm_name = DEFAULT_FARM
             if self.db:
-                doc = self.db.collection("users").document(uid).get()
-                if doc.exists:
-                    farm_name = doc.to_dict().get("farm_name", DEFAULT_FARM)
+                try:     # จำกัดเวลา ไม่ให้หน้าค้างถ้าเชื่อม Firestore ไม่ได้
+                    doc = self.db.collection("users").document(uid).get(timeout=8)
+                    if doc.exists:
+                        farm_name = doc.to_dict().get("farm_name", DEFAULT_FARM)
+                except Exception as e:   # noqa: BLE001
+                    _db_error(e)
         return {"uid": uid, "email": d["email"], "farm_name": farm_name,
                 "id_token": d["idToken"]}
- 
+
     # ------------------------------------------------------------------ หน้าจอ
     def render_forms(self):
         """ฟอร์ม 3 แท็บ: เข้าสู่ระบบ / สมัครสมาชิก / ลืมรหัสผ่าน (วางที่ไหนก็ได้)"""
@@ -131,7 +152,7 @@ class FirebaseAuthService:
             st.warning("ยังไม่ได้เชื่อม Firestore — " + (st.session_state.get("_fb_cred_error")
                        or "ตรวจหัวข้อ [firebase_service_account] ใน Secrets หรือไฟล์ serviceAccountKey.json"))
         tab_in, tab_up, tab_reset = st.tabs(["เข้าสู่ระบบ", "สมัครสมาชิก", "ลืมรหัสผ่าน"])
- 
+
         with tab_in, st.form("login_form", border=False):
             email = st.text_input("อีเมล", placeholder="name@gmail.com")
             password = st.text_input("รหัสผ่าน", type="password")
@@ -140,7 +161,7 @@ class FirebaseAuthService:
                     st.error("กรุณากรอกอีเมลและรหัสผ่าน")
                 else:
                     self._run(lambda: self.sign_in(email.strip(), password))
- 
+
         with tab_up, st.form("signup_form", border=False):
             email = st.text_input("อีเมล", key="su_email", placeholder="name@gmail.com")
             farm = st.text_input("ชื่อสวน", placeholder="เช่น สวนทุเรียนบ้านนา (จันทบุรี)")
@@ -154,7 +175,7 @@ class FirebaseAuthService:
                     st.error("รหัสผ่านทั้งสองช่องไม่ตรงกัน")
                 else:
                     self._run(lambda: self.sign_up(email.strip(), p1, farm.strip()))
- 
+
         with tab_reset, st.form("reset_form", border=False):
             email = st.text_input("อีเมลที่ใช้สมัคร", key="rs_email")
             if st.form_submit_button("ส่งลิงก์ตั้งรหัสผ่านใหม่", width="stretch"):
@@ -163,7 +184,7 @@ class FirebaseAuthService:
                     st.success("ส่งลิงก์ไปที่อีเมลแล้ว (เช็กในกล่องจดหมายขยะด้วย)")
                 except AuthError as e:
                     st.error(str(e))
- 
+
     def render_login(self):
         """แบบเดิม: ฟอร์มใน sidebar คืนค่า True ถ้าเข้าสู่ระบบแล้ว"""
         if "user" not in st.session_state:
@@ -174,22 +195,22 @@ class FirebaseAuthService:
             st.subheader("🔐 เข้าสู่ระบบ")
             self.render_forms()
         return False
- 
+
     @staticmethod
     def logout():
         st.session_state.user = None
         for k in [k for k in st.session_state if k.startswith(("ledger_", "ocr_", "chat_", "ai_"))]:
             del st.session_state[k]
         st.rerun()
- 
+
     @staticmethod
     def _run(action):
         try:
-            st.session_state.user = action()
+            with st.spinner("กำลังตรวจสอบกับ Firebase..."):
+                st.session_state.user = action()
             st.rerun()
         except AuthError as e:
             st.error(str(e))
         except Exception as e:   # noqa: BLE001  เช่น Firestore ปฏิเสธสิทธิ์ -> แสดงให้เห็น ไม่เงียบ
             print(f"[firebase] ผิดพลาดหลังเข้าสู่ระบบ: {e!r}")
             st.error(f"เข้าสู่ระบบไม่สำเร็จ: {str(e)[:200]}")
- 

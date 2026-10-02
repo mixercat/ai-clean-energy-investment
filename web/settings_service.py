@@ -71,8 +71,11 @@ class SettingsService:
             return dict(st.session_state[self._skey])
         raw = {}
         if self.db is not None:
-            snap = self._doc().get()
-            raw = (snap.to_dict() or {}).get("settings", {}) if snap.exists else {}
+            try:
+                snap = self._doc().get(timeout=8)
+                raw = (snap.to_dict() or {}).get("settings", {}) if snap.exists else {}
+            except Exception as e:   # noqa: BLE001
+                print(f"[firebase] อ่านการตั้งค่าไม่ได้: {e!r}")
         s = {"province": raw.get("province", DEFAULT_PROVINCE),
              "lat": raw.get("lat"), "lon": raw.get("lon"), "ai": {}}
         if s["lat"] is None or s["lon"] is None:

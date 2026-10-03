@@ -17,6 +17,37 @@ PROVINCES = {
     "สงขลา": (7.1898, 100.5954), "ศรีสะเกษ": (15.1186, 104.3220), "อุตรดิตถ์": (17.6201, 100.0993),
 }
 DEFAULT_PROVINCE = "จันทบุรี"
+VARIETIES = ["หมอนทอง", "ชะนี", "ก้านยาว", "พวงมณี", "กระดุม", "หลายพันธุ์"]
+# ข้อมูลสวน (0 = ยังไม่ได้กรอก) ใช้คำนวณต้นทุน/ผลผลิตต่อไร่และต่อต้นให้ผู้ช่วย AI
+DEFAULT_PROFILE = {"rai": 0.0, "trees": 0, "tree_age": 0, "variety": "หมอนทอง"}
+
+
+def profile_text(profile, summary, farm_name="สวน"):
+    """สรุปข้อมูลสวน + ตัวเลขต่อไร่/ต่อต้น จากบัญชี สำหรับส่งให้ผู้ช่วย AI"""
+    p = {**DEFAULT_PROFILE, **(profile or {})}
+    rai, trees = float(p.get("rai") or 0), int(p.get("trees") or 0)
+    if not rai and not trees:
+        return "- ข้อมูลสวน: ผู้ใช้ยังไม่ได้กรอกจำนวนไร่/จำนวนต้น (แนะนำให้กรอกในแท็บตั้งค่าเพื่อคำนวณต่อไร่/ต่อต้น)"
+    lines = [f"- ข้อมูลสวน{f' ({farm_name})' if farm_name else ''}: " + ", ".join(x for x in [
+        f"พื้นที่ {rai:,.1f} ไร่" if rai else "", f"{trees:,} ต้น" if trees else "",
+        f"อายุต้นประมาณ {int(p['tree_age'])} ปี" if p.get("tree_age") else "",
+        f"พันธุ์หลัก {p.get('variety')}" if p.get("variety") else ""] if x)]
+    for unit, n in [("ไร่", rai), ("ต้น", trees)]:
+        if not n:
+            continue
+        parts = []
+        if summary.get("expense"):
+            parts.append(f"ต้นทุน {summary['expense'] / n:,.0f} บาท/{unit}")
+        if summary.get("income"):
+            parts.append(f"รายรับ {summary['income'] / n:,.0f} บาท/{unit}")
+            parts.append(f"กำไร {summary['profit'] / n:,.0f} บาท/{unit}")
+        if summary.get("sold_kg"):
+            parts.append(f"ผลผลิตที่ขาย {summary['sold_kg'] / n:,.1f} กก./{unit}")
+        if parts:
+            lines.append(f"- ต่อ{unit} (จากบัญชีที่บันทึก): " + ", ".join(parts))
+    if rai and trees:
+        lines.append(f"- ความหนาแน่น {trees / rai:,.0f} ต้น/ไร่")
+    return "\n".join(lines)
 KEY_FIELDS = ["gemini_key", "groq_key", "azure_key"]          # ช่องที่ต้องเข้ารหัส
 PLAIN_FIELDS = ["gemini_model", "azure_endpoint", "azure_deployment"]
 
@@ -79,7 +110,8 @@ class SettingsService:
                 from firebase_auth import _db_error
                 _db_error(e)
         s = {"province": raw.get("province", DEFAULT_PROVINCE),
-             "lat": raw.get("lat"), "lon": raw.get("lon"), "ai": {}}
+             "lat": raw.get("lat"), "lon": raw.get("lon"), "ai": {},
+             "profile": {**DEFAULT_PROFILE, **(raw.get("profile") or {})}}
         if s["lat"] is None or s["lon"] is None:
             s["lat"], s["lon"] = PROVINCES.get(s["province"], PROVINCES[DEFAULT_PROVINCE])
         ai_raw = raw.get("ai", {})
@@ -106,13 +138,22 @@ class SettingsService:
         return dict(ai) if has_any else None
 
     # ------------------------------------------------------------------ บันทึก
-    def save_farm(self, farm_name, province, lat, lon):
+    def save_farm(self, farm_name, province, lat, lon, profile=None):
         s = self.load()
         s.update(province=province, lat=float(lat), lon=float(lon))
+        if profile is not None:
+            s["profile"] = {**DEFAULT_PROFILE, **profile}
         st.session_state[self._skey] = s
         if self.db is not None:
-            self._doc().set({"farm_name": farm_name,
-                             "settings": {"province": province, "lat": float(lat), "lon": float(lon)}}, merge=True)
+            data = {"province": province, "lat": float(lat), "lon": float(lon)}
+            if profile is not None:
+                data["profile"] = s["profile"]
+            try:
+                from firebase_auth import fs_call
+                fs_call(lambda: self._doc().set({"farm_name": farm_name, "settings": data}, merge=True))
+            except Exception as e:   # noqa: BLE001
+                from firebase_auth import _db_error
+                _db_error(e)
 
     def save_ai(self, ai):
         """ai: dict ของค่าที่ผู้ใช้กรอก (ค่าว่าง = ลบ) -> True ถ้าจำ key ข้ามการเข้าสู่ระบบได้"""
@@ -124,7 +165,12 @@ class SettingsService:
         if self.db is not None and f:
             stored = {k: (f.encrypt(ai[k].encode()).decode() if ai.get(k) else None) for k in KEY_FIELDS}
             stored.update({k: ai.get(k) or None for k in PLAIN_FIELDS})
-            self._doc().set({"settings": {"ai": stored}}, merge=True)
+            try:
+                from firebase_auth import fs_call
+                fs_call(lambda: self._doc().set({"settings": {"ai": stored}}, merge=True))
+            except Exception as e:   # noqa: BLE001
+                from firebase_auth import _db_error
+                _db_error(e)
             st.session_state.pop(self._keys_skey, None)
             return True
         # ไม่มี APP_SECRET_KEY หรือไม่ได้เชื่อม Firestore -> จำไว้แค่ session นี้ (ไม่บันทึก key แบบไม่เข้ารหัส)

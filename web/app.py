@@ -42,8 +42,8 @@ from file_import import (UPLOAD_TYPES, TYPE_MODES, apply_header, build_entries, 
                          docx_text, file_kind, guess_columns, guess_header_row, is_image_path,
                          mark_duplicates, pdf_info, read_raw, sheet_names, table_as_text)
 from gemini_service import GeminiService               # noqa: E402
-from settings_service import (PROVINCES, SettingsService, can_persist_keys,  # noqa: E402
-                              mask, server_keys_allowed)
+from settings_service import (PROVINCES, VARIETIES, SettingsService, can_persist_keys,  # noqa: E402
+                              mask, profile_text, server_keys_allowed)
 from knowledge import knowledge_text                  # noqa: E402
 from ledger_service import (EXPENSE, EXPENSE_CATS, INCOME, INCOME_CATS,  # noqa: E402
                             LedgerService)
@@ -722,7 +722,9 @@ with h1:
     st.markdown(f'<div class="page-eyebrow">{icon("eco")} {user.get("farm_name", "สวนของฉัน")}</div>'
                 '<div class="page-title">ภาพรวมสวน</div>'
                 f'<div class="page-meta"><span>{icon("location_on")}จังหวัด{PROVINCE}</span>'
-                f'<span>{icon("receipt_long")}{summary["count"]} รายการในบัญชี</span></div>',
+                + (f'<span>{icon("park")}{farm["profile"]["rai"]:,.0f} ไร่ · {farm["profile"]["trees"]:,} ต้น</span>'
+                   if farm.get("profile", {}).get("rai") or farm.get("profile", {}).get("trees") else "")
+                + f'<span>{icon("receipt_long")}{summary["count"]} รายการในบัญชี</span></div>',
                 unsafe_allow_html=True)
 with h2:
     theme_toggle(f'<span class="date-chip">{icon("calendar_today")}'
@@ -1413,7 +1415,8 @@ with tab_book:
                             st.session_state.ai_summary = gemini.ask_assistant(
                                 "สรุปบัญชีสวนช่วงนี้ให้หน่อย: กำไรเท่าไหร่ ต้นทุนหมวดไหนสูงสุด คิดเป็นกี่ % "
                                 "ขายได้เฉลี่ยกก.ละเท่าไหร่ และมีข้อสังเกตอะไรที่ควรระวัง ตอบเป็นข้อ ๆ ไม่เกิน 6 ข้อ",
-                                LedgerService.context_text(view, user.get("farm_name", "สวน")))
+                                LedgerService.context_text(view, user.get("farm_name", "สวน")) + "\n"
+                                + profile_text(farm.get("profile"), LedgerService.summary(view), user.get("farm_name", "")))
                         except Exception as e:   # noqa: BLE001
                             st.session_state.ai_summary = f"**ใช้ AI ไม่ได้:** {ai_error_message(e)}"
                 if st.session_state.get("ai_summary"):
@@ -1716,11 +1719,11 @@ with tab_ai:
 
         if not history:
             st.markdown('<div class="muted" style="margin:6px 0 8px">ลองถาม:</div>', unsafe_allow_html=True)
-            examples = ["ฤดูนี้กำไรเท่าไหร่ ต้นทุนไหนสูงสุด", "ราคาหมอนทองช่วงนี้แนวโน้มเป็นยังไง",
-                        "สัปดาห์นี้พ่นยาได้วันไหนบ้าง", "ใบอ่อนเหี่ยวเหลือง โคนต้นมีน้ำเยิ้ม เป็นอะไร",
-                        "หมอนทองตัดได้เมื่อไหร่ ต้องแก่แค่ไหน", "ขายส่งออกจีนต้องมีเอกสารอะไรบ้าง"]
+            examples = ["ต้นทุนและกำไรต่อไร่ของสวนเราเท่าไหร่", "ราคาหมอนทองช่วงนี้แนวโน้มเป็นยังไง",
+                        "สัปดาห์นี้พ่นยาได้วันไหนบ้าง", "เดือนนี้ต้องทำอะไรในสวนบ้าง",
+                        "ใบอ่อนเหี่ยวเหลือง โคนต้นมีน้ำเยิ้ม เป็นอะไร", "เกรด AB กับ C ต่างกันยังไง ทำยังไงให้ได้ AB เยอะ"]
             ex_icons = [":material/payments:", ":material/trending_up:", ":material/water_drop:",
-                        ":material/eco:", ":material/content_cut:", ":material/local_shipping:"]
+                        ":material/calendar_month:", ":material/eco:", ":material/workspace_premium:"]
             ec = st.columns(3)
             for i, q in enumerate(examples):
                 if ec[i % 3].button(q, icon=ex_icons[i], key=f"ex_{i}", width="stretch"):
@@ -1751,7 +1754,8 @@ with tab_ai:
             prev_q = next((m["content"] for m in reversed(history[:-1]) if m["role"] == "user"), "")
             kb = knowledge_text(q) or knowledge_text(prev_q + " " + q)     # คำถามต่อเนื่องใช้หัวข้อเดิม
             context = (f"วันนี้: {date.today().isoformat()} · สวนอยู่จังหวัด{PROVINCE}\n"
-                       f"{LedgerService.context_text(df_tx, user.get('farm_name', 'สวนของผู้ใช้'))}\n\n"
+                       f"{LedgerService.context_text(df_tx, user.get('farm_name', 'สวนของผู้ใช้'))}\n"
+                       f"{profile_text(farm.get('profile'), summary, user.get('farm_name', ''))}\n\n"
                        f"{fctx}\n{fx_ctx}\n\n{kb}\n\nบทสนทนาก่อนหน้า:\n{recent or '-'}")
             with st.chat_message("assistant", avatar=":material/eco:"):
                 with st.spinner("กำลังคิด..."):
@@ -1783,9 +1787,21 @@ with tab_set:
             f_lat = c1.number_input("ละติจูด", value=float(FARM_LAT), format="%.4f",
                                     help="ใช้เมื่อเลือก 'กำหนดพิกัดเอง' (ดูจาก Google Maps: กดค้างที่สวน)")
             f_lon = c2.number_input("ลองจิจูด", value=float(FARM_LON), format="%.4f")
+            prof = farm.get("profile", {})
+            st.markdown('<div class="pick-label" style="margin-top:10px"><b>ขนาดสวน</b> · ให้ผู้ช่วย AI คำนวณต้นทุน '
+                        'ผลผลิต และกำไรต่อไร่/ต่อต้นได้</div>', unsafe_allow_html=True)
+            p1, p2 = st.columns(2)
+            f_rai = p1.number_input("พื้นที่ (ไร่)", min_value=0.0, value=float(prof.get("rai") or 0), step=1.0)
+            f_trees = p2.number_input("จำนวนต้น", min_value=0, value=int(prof.get("trees") or 0), step=10)
+            p3, p4 = st.columns(2)
+            f_age = p3.number_input("อายุต้นโดยประมาณ (ปี)", min_value=0, value=int(prof.get("tree_age") or 0), step=1)
+            vlist = VARIETIES
+            f_var = p4.selectbox("พันธุ์หลัก", vlist, index=vlist.index(prof.get("variety")) if prof.get("variety") in vlist else 0)
             if st.form_submit_button("บันทึกข้อมูลสวน", icon=":material/save:", type="primary", width="stretch"):
                 lat, lon = (f_lat, f_lon) if f_prov == "กำหนดพิกัดเอง" else PROVINCES[f_prov]
-                settings.save_farm(f_name.strip() or "สวนของฉัน", f_prov, lat, lon)
+                settings.save_farm(f_name.strip() or "สวนของฉัน", f_prov, lat, lon,
+                                   profile={"rai": float(f_rai), "trees": int(f_trees), "tree_age": int(f_age),
+                                            "variety": f_var})
                 st.session_state.user = {**user, "farm_name": f_name.strip() or "สวนของฉัน"}
                 st.toast("บันทึกข้อมูลสวนแล้ว", icon=":material/check_circle:")
                 st.rerun()

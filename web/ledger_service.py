@@ -47,6 +47,10 @@ class LedgerService:
         df["amount"] = pd.to_numeric(df["amount"], errors="coerce").fillna(0.0)
         df["weight_kg"] = pd.to_numeric(df["weight_kg"], errors="coerce")
         df["date"] = pd.to_datetime(df["date"], errors="coerce")
+        for c in ("party", "note", "source"):           # ช่องข้อความที่ว่าง -> "" (กัน NaN ทำให้หน้าเว็บพัง)
+            df[c] = df[c].map(lambda v: v if isinstance(v, str) else "")
+        df["category"] = df["category"].map(lambda v: v if isinstance(v, str) and v else "อื่น ๆ")
+        df["image_path"] = df["image_path"].where(df["image_path"].map(lambda v: isinstance(v, str) and bool(v)), None)
         return df.sort_values("date", ascending=False).reset_index(drop=True)
 
     def add(self, entry):
@@ -85,12 +89,17 @@ class LedgerService:
 
     def delete(self, tid, image_path=None):
         if self.persistent:
-            self._col().document(tid).delete()
+            from firebase_auth import fs_call
+            fs_call(lambda: self._col().document(tid).delete())
         else:
             st.session_state[self._key] = [t for t in st.session_state.get(self._key, [])
                                            if t["id"] != tid]
-        if image_path and Path(image_path).exists():
-            Path(image_path).unlink()
+        # รายการที่ไม่มีรูปจะได้ค่าว่าง/NaN จากตาราง -> ข้าม (เดิมทำให้ลบแล้วเกิด TypeError)
+        if isinstance(image_path, str) and image_path and Path(image_path).exists():
+            try:
+                Path(image_path).unlink()
+            except OSError:
+                pass
 
     # ------------------------------------------------------------------ ไฟล์แนบ (รูป / PDF / Word / Excel)
     def save_image(self, uploaded_file):

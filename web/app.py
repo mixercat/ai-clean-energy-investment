@@ -1442,9 +1442,12 @@ with tab_book:
                     del_id = st.selectbox("เลือกรายการที่จะลบ", list(labels), format_func=labels.get)
                     if st.button("ยืนยันลบ", width="stretch"):
                         row = df_tx[df_tx["id"] == del_id].iloc[0]
-                        ledger.delete(del_id, row.get("image_path"))
-                        st.toast("ลบแล้ว", icon=":material/delete:")
-                        st.rerun()
+                        try:
+                            ledger.delete(del_id, row.get("image_path"))
+                            st.toast("ลบแล้ว", icon=":material/delete:")
+                            st.rerun()
+                        except Exception as e:   # noqa: BLE001
+                            st.error(f"ลบไม่สำเร็จ: {str(e)[:150]} — ลองใหม่อีกครั้ง")
 
         if not view.empty:
             st.write("")
@@ -1495,7 +1498,8 @@ with tab_book:
 
     # -------------------------------------------------- คลังรูป
     imgs = df_tx[df_tx["image_path"].notna()] if not df_tx.empty else df_tx
-    imgs = imgs[[bool(p) and os.path.exists(p) for p in imgs["image_path"]]] if not imgs.empty else imgs
+    imgs = imgs[[isinstance(p, str) and bool(p) and os.path.exists(p) for p in imgs["image_path"]]] \
+        if not imgs.empty else imgs
     if not imgs.empty:
         st.write("")
         with st.container(key="card-gallery"):

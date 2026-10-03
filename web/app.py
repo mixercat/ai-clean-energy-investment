@@ -594,6 +594,73 @@ def rain_advice(mm):
     return "thunderstorm", "ฝนหนัก งดพ่นยา", C_RED
 
 
+# ---------------------------------------------------------------- พื้นหลังหน้า login: ทุเรียนลอยช้า ๆ
+def durian_svg(seed=1):
+    """ภาพทุเรียนแบบเวกเตอร์ (วาดเอง) สำหรับตกแต่งพื้นหลัง"""
+    import math
+    import random
+    rnd = random.Random(seed)
+    cx, cy, rx, ry = 100, 112, 62, 74
+    pts = []
+    n = 34
+    for i in range(n):
+        for t, r in ((2 * math.pi * i / n, 1.0), (2 * math.pi * (i + .5) / n, 1.13 + rnd.uniform(-.02, .03))):
+            pts.append((cx + rx * r * math.cos(t), cy + ry * r * math.sin(t)))
+    outline = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts) + " Z"
+    marks = []
+    for gy in range(-4, 5):
+        for gx in range(-4, 5):
+            x, y = cx + gx * 14 + (7 if gy % 2 else 0), cy + gy * 15
+            if ((x - cx) / (rx - 10)) ** 2 + ((y - cy) / (ry - 10)) ** 2 < 1:
+                marks.append(f"M{x:.1f},{y - 5.2:.1f} L{x + 4.4:.1f},{y + 3.1:.1f} L{x - 4.4:.1f},{y + 3.1:.1f} Z")
+    return (f'<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            f'<path d="M100,40 C98,28 102,20 110,14" stroke="#7a5a2b" stroke-width="7" fill="none" stroke-linecap="round"/>'
+            f'<path d="{outline}" fill="#7da33a"/><ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="#93b94a"/>'
+            f'<ellipse cx="{cx - 18}" cy="{cy - 26}" rx="22" ry="30" fill="#b4d36a" opacity=".45"/>'
+            f'<path d="{" ".join(marks)}" fill="#5f8a2a" opacity=".85"/>'
+            f'<path d="M{cx},{cy - ry + 6} C{cx - 8},{cy - 20} {cx - 8},{cy + 20} {cx},{cy + ry - 6}" '
+            f'stroke="#5f8a2a" stroke-width="2.4" fill="none" opacity=".6"/></svg>')
+
+
+def login_background():
+    # (ตำแหน่ง left%, top%, ขนาด px, ระยะเวลา s, หน่วง s, มุมเริ่ม, มุมจบ)
+    spots = [(4, 62, 150, 19, 0, -12, 6), (16, 8, 70, 23, -6, 10, -8), (40, 78, 110, 21, -3, 4, 18),
+             (55, 6, 84, 25, -9, -18, 0), (70, 52, 180, 22, -4, 8, -10), (88, 12, 120, 20, -12, -6, 14),
+             (93, 74, 76, 24, -2, 16, -4), (28, 40, 56, 27, -14, -20, -2), (63, 30, 48, 26, -7, 12, 30)]
+    svg = durian_svg()
+    items = "".join(
+        f'<div class="dur" style="left:{x}%;top:{y}%;width:{s}px;height:{s}px;--d:{d}s;--delay:{dl}s;'
+        f'--r0:{r0}deg;--r1:{r1}deg">{svg}</div>' for x, y, s, d, dl, r0, r1 in spots)
+    st.markdown(
+        "<style>"
+        ".block-container{position:relative;z-index:1;}"
+        ".login-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}"
+        ".login-bg::before{content:'';position:absolute;inset:-20%;"
+        "background:radial-gradient(40% 35% at 78% 30%,rgba(34,197,94,.16),transparent 70%),"
+        "radial-gradient(35% 30% at 15% 80%,rgba(234,179,8,.10),transparent 70%);"
+        "animation:durGlow 18s ease-in-out infinite alternate;}"
+        ".login-bg .dur{position:absolute;opacity:var(--dur-op,.16);"
+        "animation:durFloat var(--d) ease-in-out var(--delay) infinite alternate;}"
+        ".login-bg .dur svg{width:100%;height:100%;display:block;filter:saturate(.9);}"
+        "html[data-theme='light'] .login-bg .dur{--dur-op:.22;}"
+        "@keyframes durFloat{0%{transform:translate(0,0) rotate(var(--r0));}"
+        "50%{transform:translate(14px,-26px) rotate(calc((var(--r0) + var(--r1)) / 2));}"
+        "100%{transform:translate(-10px,-48px) rotate(var(--r1));}}"
+        "@keyframes durGlow{0%{transform:translate(0,0) scale(1);}100%{transform:translate(-4%,3%) scale(1.08);}}"
+        "@media (prefers-reduced-motion: reduce){.login-bg .dur,.login-bg::before{animation:none;}}"
+        "@media (max-width: 640px){[data-testid='stHorizontalBlock']:has(.st-key-card-login)"
+        "{flex-direction:column-reverse;} .st-key-card-login{margin-top:2vh !important;}"
+        ".auth-brand{margin-top:2vh !important;} .auth-h1{font-size:1.6rem !important;}}"
+        ".st-key-card-login{background:color-mix(in srgb, var(--card) 82%, transparent) !important;"
+        "backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}"
+        ".auth-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;}"
+        ".auth-chips>span{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;padding:6px 12px;"
+        "border-radius:999px;background:var(--accent-bg);border:1px solid var(--accent-bd);color:var(--text);}"
+        ".auth-chips .ms{font-size:16px;color:var(--green);vertical-align:0;}"
+        "</style>"
+        f'<div class="login-bg">{items}</div>', unsafe_allow_html=True)
+
+
 # ====================================================================== AUTH
 auth = FirebaseAuthService()
 if "user" not in st.session_state:
@@ -602,6 +669,7 @@ if "user" not in st.session_state:
 if not st.session_state.user:
     st.markdown("<style>[data-testid='stSidebar'],[data-testid='stSidebarCollapsedControl']"
                 "{display:none;}</style>", unsafe_allow_html=True)
+    login_background()
     theme_toggle()
     left, _, right = st.columns([1.2, 0.12, 0.9])
     with left:
@@ -616,6 +684,9 @@ if not st.session_state.user:
             '<div class="auth-h1">สมุดบัญชีสวนทุเรียน<br>ที่ทำงานแทนคุณ</div>'
             '<div class="auth-lead">บันทึกรายรับรายจ่ายจากใบชั่ง ดูราคาตลาด และวางแผนงานสวนตามสภาพอากาศ '
             'ในระบบเดียว</div>'
+            f'<div class="auth-chips"><span>{icon("auto_awesome")}AI อ่านใบชั่งให้</span>'
+            f'<span>{icon("monitoring")}ราคาย้อนหลัง 17 ฤดู</span>'
+            f'<span>{icon("forum")}ผู้ช่วยตอบเรื่องสวน 24 ชม.</span></div>'
             + "".join(f'<div class="feat"><div class="ic">{icon(i)}</div><div><b>{t}</b><span>{d}</span></div></div>'
                       for i, t, d in feats)
             + '<div class="auth-foot">ข้อมูลราคา: กรมการค้าภายใน · อากาศ: Open-Meteo</div>',
@@ -752,7 +823,7 @@ CAT_FORM = {
     "ขายทุเรียน": {
         "party": "ล้ง / ผู้ซื้อ",
         "hint": "ใส่น้ำหนักและราคาต่อกก. ระบบคำนวณจำนวนเงินให้ (หรือใส่จำนวนเงินเองก็ได้)",
-        "fields": [("variety", "พันธุ์", "select", ["หมอนทอง", "ชะนี", "ก้านยาว", "พวงมณี", "กระดุม", "อื่น ๆ"]),
+        "fields": [("variety", "พันธุ์", "select", ["หมอนทอง", "ชะนี"]),
                    ("grade", "เกรด", "select", ["AB", "C", "ตกไซซ์", "คละเกรด"]),
                    ("kg", "น้ำหนัก (กก.)", "num", 10.0), ("price", "ราคาต่อกก. (บาท)", "num", 1.0)],
         "detail": lambda v: _j(f"{v['variety']} {v['grade']}",

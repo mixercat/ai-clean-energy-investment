@@ -208,7 +208,7 @@ class FirebaseAuthService:
                      "(บน Streamlit Cloud ให้ใส่ในหน้า Settings → Secrets ไว้บรรทัดบนสุด ก่อนหัวข้อ [firebase_service_account])")
         if self.db is None:
             st.warning("ยังไม่ได้เชื่อม Firestore — " + (st.session_state.get("_fb_cred_error")
-                       or "ตรวจหัวข้อ [firebase_service_account] ใน Secrets หรือไฟล์ serviceAccountKey.json"))
+                       or "ใส่ FIREBASE_SERVICE_ACCOUNT_JSON ในหน้า Secrets (หรือไฟล์ serviceAccountKey.json ในเครื่อง)"))
         tab_in, tab_up, tab_reset = st.tabs(["เข้าสู่ระบบ", "สมัครสมาชิก", "ลืมรหัสผ่าน"])
 
         with tab_in, st.form("login_form", border=False):

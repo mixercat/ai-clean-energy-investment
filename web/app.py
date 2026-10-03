@@ -302,6 +302,8 @@ a.qa > .ms{{margin-left:auto; color:var(--muted); vertical-align:0;}}
 .qa-ic .ms{{font-size:19px; vertical-align:0;}}
 .qa-tx b{{display:block; font-size:.86rem; font-weight:600;}} .qa-tx span{{font-size:.74rem; color:var(--muted);}}
 @media (max-width: 1100px){{ .hero{{grid-template-columns:1fr;}} }}
+.pick-label{{font-size:.875rem; color:var(--text); margin:6px 0 -4px;}}
+[data-testid="stPills"] button p{{font-size:.84rem;}}
 /* ---------- แถบด้านข้าง ---------- */
 [data-testid="stSidebar"] [data-testid="stVerticalBlock"]{{gap:.45rem;}}
 .side-empty{{font-size:.8rem; color:var(--muted); padding:2px 4px 6px;}}
@@ -735,6 +737,64 @@ tab_home, tab_book, tab_price, tab_env, tab_ai, tab_set = st.tabs(
 CAT_ICON = {"ขายทุเรียน": "sell", "ปุ๋ย": "compost", "ยา/สารเคมี": "science", "ค่าแรง": "groups",
             "อุปกรณ์": "handyman", "ขนส่ง": "local_shipping", "น้ำ/ไฟ": "bolt", "อื่น ๆ": "more_horiz"}
 
+# ช่องกรอกเฉพาะของแต่ละหมวด (ใช้ในฟอร์ม "เพิ่มรายการเอง") -> รวมเป็นข้อความในช่องหมายเหตุ
+def _j(*parts):
+    return " · ".join(str(p) for p in parts if p not in (None, "", 0, 0.0))
+
+
+def _n(v, unit):
+    return f"{v:,.0f} {unit}" if v else ""
+
+
+CAT_FORM = {
+    "ขายทุเรียน": {
+        "party": "ล้ง / ผู้ซื้อ",
+        "hint": "ใส่น้ำหนักและราคาต่อกก. ระบบคำนวณจำนวนเงินให้ (หรือใส่จำนวนเงินเองก็ได้)",
+        "fields": [("variety", "พันธุ์", "select", ["หมอนทอง", "ชะนี", "ก้านยาว", "พวงมณี", "กระดุม", "อื่น ๆ"]),
+                   ("grade", "เกรด", "select", ["AB", "C", "ตกไซซ์", "คละเกรด"]),
+                   ("kg", "น้ำหนัก (กก.)", "num", 10.0), ("price", "ราคาต่อกก. (บาท)", "num", 1.0)],
+        "detail": lambda v: _j(f"{v['variety']} {v['grade']}",
+                               f"{v['kg']:,.0f} กก.@{v['price']:,.0f}" if v.get("kg") and v.get("price") else ""),
+    },
+    "ปุ๋ย": {
+        "party": "ร้านค้า",
+        "fields": [("formula", "สูตร / ชนิดปุ๋ย", "text", "เช่น 15-15-15, ขี้ไก่"),
+                   ("qty", "จำนวน (กระสอบ)", "num", 1.0)],
+        "detail": lambda v: _j(f"สูตร {v['formula']}" if v["formula"] else "", _n(v["qty"], "กระสอบ")),
+    },
+    "ยา/สารเคมี": {
+        "party": "ร้านค้า",
+        "hint": "เก็บชื่อสารไว้เป็นหลักฐาน GAP ได้",
+        "fields": [("name", "ชื่อยา / สาร", "text", "เช่น ฟอสโฟนิก แอซิด"),
+                   ("qty", "ปริมาณ", "text", "เช่น 2 ขวด, 5 ลิตร")],
+        "detail": lambda v: _j(v["name"], v["qty"]),
+    },
+    "ค่าแรง": {
+        "party": "ชื่อคนงาน / หัวหน้าทีม",
+        "fields": [("job", "งานที่จ้าง", "select", ["ตัดทุเรียน", "พ่นยา", "ใส่ปุ๋ย", "ตัดหญ้า", "ตัดแต่งกิ่ง", "อื่น ๆ"]),
+                   ("people", "จำนวนคน", "num", 1.0), ("days", "จำนวนวัน", "num", 1.0)],
+        "detail": lambda v: _j(v["job"], f"{v['people']:,.0f} คน × {v['days']:,.0f} วัน"
+                               if v["people"] and v["days"] else _n(v["people"], "คน")),
+    },
+    "อุปกรณ์": {
+        "party": "ร้านค้า",
+        "fields": [("item", "ชื่ออุปกรณ์", "text", "เช่น สายยาง, กรรไกรตัดกิ่ง"), ("qty", "จำนวน (ชิ้น)", "num", 1.0)],
+        "detail": lambda v: _j(v["item"], _n(v["qty"], "ชิ้น")),
+    },
+    "ขนส่ง": {
+        "party": "ผู้ขนส่ง",
+        "fields": [("route", "รายละเอียด", "text", "เช่น ค่ารถขนทุเรียนไปล้ง"), ("trips", "จำนวนเที่ยว", "num", 1.0)],
+        "detail": lambda v: _j(v["route"], _n(v["trips"], "เที่ยว")),
+    },
+    "น้ำ/ไฟ": {
+        "party": "ผู้ให้บริการ เช่น การไฟฟ้าส่วนภูมิภาค",
+        "fields": [("kind", "ประเภทบิล", "select", ["ค่าไฟ", "ค่าน้ำ", "น้ำมันเครื่องสูบน้ำ"]),
+                   ("period", "งวดเดือน", "text", "เช่น ก.ย. 2569")],
+        "detail": lambda v: _j(v["kind"], f"งวด {v['period']}" if v["period"] else ""),
+    },
+}
+
+
 with tab_home:
     wx_home = get_weather(FARM_LAT, FARM_LON)
     wx_next = wx_home[wx_home["period"] == "พยากรณ์"].head(7) if wx_home is not None else None
@@ -1158,30 +1218,52 @@ with tab_book:
         if True:
             with st.expander("เพิ่มรายการเอง (ไม่มีบิล เช่น ค่าแรง)", icon=":material/edit_note:"):
                 m_type = st.radio("ประเภท", [EXPENSE, INCOME], horizontal=True, key="m_type")
-                with st.form("manual_form", clear_on_submit=True, border=False):
+                m_cats = EXPENSE_CATS if m_type == EXPENSE else INCOME_CATS
+                st.markdown('<div class="pick-label">เลือกหมวดหมู่</div>', unsafe_allow_html=True)
+                m_cat = st.pills("หมวดหมู่", m_cats, default=m_cats[0], key=f"m_cat_{m_type}",
+                                 format_func=lambda c: f":material/{CAT_ICON.get(c, 'more_horiz')}: {c}",
+                                 label_visibility="collapsed") or m_cats[0]
+                spec = CAT_FORM.get(m_cat, {})
+                if spec.get("hint"):
+                    st.caption(spec["hint"])
+                with st.form(f"manual_form_{m_type}_{m_cat}", clear_on_submit=True, border=False):
                     c1, c2 = st.columns(2)
                     m_date = c1.date_input("วันที่", value=date.today(), format="DD/MM/YYYY")
-                    m_cat = c2.selectbox("หมวดหมู่", EXPENSE_CATS if m_type == EXPENSE else INCOME_CATS)
-                    c3, c4 = st.columns(2)
-                    m_amount = c3.number_input("จำนวนเงิน (บาท)", min_value=0.0, step=100.0)
-                    m_weight = c4.number_input("น้ำหนัก (กก.) ถ้าเป็นการขาย", min_value=0.0, step=10.0)
-                    m_party = st.text_input("ล้ง / ร้านค้า / ผู้รับเงิน")
-                    m_note = st.text_input("หมายเหตุ")
-                    if st.form_submit_button("เพิ่มรายการ", type="primary", width="stretch"):
-                        if m_amount <= 0:
-                            st.error("กรุณาใส่จำนวนเงิน")
+                    m_amount = c2.number_input("จำนวนเงิน (บาท)", min_value=0.0, step=100.0,
+                                               help="ขายทุเรียน: เว้น 0 ได้ ระบบคำนวณจากน้ำหนัก × ราคาให้"
+                                               if m_cat == "ขายทุเรียน" else None)
+                    vals = {}
+                    fields = spec.get("fields", [])
+                    for i in range(0, len(fields), 2):          # ช่องเฉพาะหมวด เรียงทีละ 2 ช่อง
+                        cols = st.columns(2)
+                        for col, (fid, label, kind, opt) in zip(cols, fields[i:i + 2]):
+                            if kind == "select":
+                                vals[fid] = col.selectbox(label, opt)
+                            elif kind == "num":
+                                vals[fid] = col.number_input(label, min_value=0.0, step=opt or 1.0)
+                            else:
+                                vals[fid] = col.text_input(label, placeholder=opt or "")
+                    m_party = st.text_input(spec.get("party", "ร้านค้า / ผู้รับเงิน"))
+                    m_note = st.text_input("หมายเหตุเพิ่มเติม")
+                    if st.form_submit_button(f"เพิ่ม{m_type} · {m_cat}", icon=":material/add:", type="primary",
+                                             width="stretch"):
+                        kg = vals.get("kg") or None
+                        amount = m_amount or ((vals.get("kg") or 0) * (vals.get("price") or 0))
+                        if amount <= 0:
+                            st.error("กรุณาใส่จำนวนเงิน" + (" หรือใส่น้ำหนักกับราคาต่อกก." if m_cat == "ขายทุเรียน" else ""))
                         else:
-                            ledger.add({"date": m_date, "type": m_type, "category": m_cat,
-                                        "amount": m_amount, "party": m_party,
-                                        "weight_kg": m_weight if m_type == INCOME and m_weight else None,
-                                        "note": m_note, "image_path": None, "source": "manual"})
-                            st.toast("เพิ่มรายการแล้ว", icon=":material/check_circle:")
+                            detail = spec["detail"](vals) if spec.get("detail") else ""
+                            ledger.add({"date": m_date, "type": m_type, "category": m_cat, "amount": amount,
+                                        "party": m_party, "weight_kg": kg if m_type == INCOME else None,
+                                        "note": " · ".join(x for x in [detail, m_note.strip()] if x),
+                                        "image_path": None, "source": "manual"})
+                            st.toast(f"เพิ่ม{m_cat} {baht(amount)} แล้ว", icon=":material/check_circle:")
                             st.rerun()
 
     # -------------------------------------------------- รายการ
     with col_list:
         with st.container(key="card-list"):
-            card_header("รายการบัญชี", "เลือกช่วงเวลาและประเภทเพื่อกรองรายการ")
+            card_header("รายการบัญชี", "กรองตามช่วงเวลา ประเภท และหมวดหมู่ · ตารางจะเปลี่ยนตามหมวดที่เลือก")
             if df_tx.empty:
                 st.markdown(f'<div class="empty">{icon("inbox")}ยังไม่มีรายการ<br>'
                             'เริ่มจากสแกนใบชั่งหรือบิลใบแรกทางด้านซ้าย</div>', unsafe_allow_html=True)
@@ -1197,12 +1279,33 @@ with tab_book:
                 }, "ทั้งหมด")
                 flt = st.segmented_control("ประเภท", ["ทั้งหมด", INCOME, EXPENSE], default="ทั้งหมด",
                                            key="ledger_type", label_visibility="collapsed")
-                view = df_tx[(df_tx["date"] >= l_start) & (df_tx["date"] <= l_end)]
-                if flt not in (None, "ทั้งหมด"):
-                    view = view[view["type"] == flt]
+                period = df_tx[(df_tx["date"] >= l_start) & (df_tx["date"] <= l_end)]
+                view = period if flt in (None, "ทั้งหมด") else period[period["type"] == flt]
+                cat_opts = [c for c in dict.fromkeys(INCOME_CATS + EXPENSE_CATS) if c in set(view["category"])]
+                cat_pick = st.pills("หมวด", cat_opts, key=f"ledger_cat_{flt}", label_visibility="collapsed",
+                                    format_func=lambda c: f":material/{CAT_ICON.get(c, 'more_horiz')}: {c}")
+                if cat_pick:
+                    view = view[view["category"] == cat_pick]
+
+                # รูปแบบการแสดงผลตามสิ่งที่เลือก: ขายทุเรียน / รายจ่าย / ปนกัน
+                types = set(view["type"])
+                mode = "sale" if types == {INCOME} else "cost" if types == {EXPENSE} else "mix"
                 vs_ = LedgerService.summary(view)
-                stats_row([("รายรับ", baht(vs_["income"])), ("รายจ่าย", baht(vs_["expense"])),
-                           ("กำไร", baht(vs_["profit"])), ("จำนวน", f"{vs_['count']} รายการ")])
+                if mode == "sale":
+                    kg_tot = vs_["sold_kg"]
+                    stats_row([("รายรับ", baht(vs_["income"])), ("น้ำหนักรวม", f"{kg_tot:,.0f} กก."),
+                               ("ราคาเฉลี่ย", f"{vs_['income'] / kg_tot:,.1f} ฿/กก." if kg_tot else "–"),
+                               ("ขายไป", f"{vs_['count']} ครั้ง")])
+                elif mode == "cost":
+                    all_cost = LedgerService.summary(period)["expense"]
+                    sold_kg = LedgerService.summary(period)["sold_kg"]
+                    stats_row([(f"รวม{cat_pick or 'รายจ่าย'}", baht(vs_["expense"])),
+                               ("สัดส่วนของต้นทุนทั้งหมด", f"{vs_['expense'] / all_cost * 100:.0f}%" if all_cost else "–"),
+                               ("ต่อกก.ที่ขายได้", f"{vs_['expense'] / sold_kg:,.1f} ฿" if sold_kg else "–"),
+                               ("จำนวน", f"{vs_['count']} รายการ")])
+                else:
+                    stats_row([("รายรับ", baht(vs_["income"])), ("รายจ่าย", baht(vs_["expense"])),
+                               ("กำไร", baht(vs_["profit"])), ("จำนวน", f"{vs_['count']} รายการ")])
 
                 # ราคาที่ขายได้ต่อกก. เทียบราคาขายส่ง กทม. สัปดาห์เดียวกัน
                 def vs_market(r):
@@ -1216,13 +1319,22 @@ with tab_book:
 
                 table = view.assign(**{      # ใช้ dict เพราะชื่อคอลัมน์ไทยที่มี "ำ" ใช้เป็น keyword ไม่ได้
                     "วันที่": view["date"].map(th_date),
-                    "จำนวนเงิน": [(a if t == INCOME else -a) for a, t in zip(view["amount"], view["type"])],
+                    "จำนวนเงิน": [a if (t == INCOME or mode == "cost") else -a
+                                  for a, t in zip(view["amount"], view["type"])],
                     "บาท/กก.": [a / w if t == INCOME and w and not pd.isna(w) else None
                                 for a, w, t in zip(view["amount"], view["weight_kg"], view["type"])],
                     "เทียบตลาด": [vs_market(r) for _, r in view.iterrows()],
                 }).rename(columns={"type": "ประเภท", "category": "หมวด", "party": "ล้ง/ร้าน",
                                   "weight_kg": "กก.", "note": "หมายเหตุ"})
-                cols = ["วันที่", "ประเภท", "หมวด", "จำนวนเงิน", "กก.", "บาท/กก.", "เทียบตลาด", "ล้ง/ร้าน", "หมายเหตุ"]
+                if mode == "sale":
+                    cols = ["วันที่", "หมวด", "จำนวนเงิน", "กก.", "บาท/กก.", "เทียบตลาด", "ล้ง/ร้าน", "หมายเหตุ"]
+                    labels = {"ล้ง/ร้าน": "ล้ง / ผู้ซื้อ", "หมายเหตุ": "เกรด / รายละเอียด"}
+                elif mode == "cost":
+                    cols = ["วันที่", "หมวด", "จำนวนเงิน", "หมายเหตุ", "ล้ง/ร้าน"]
+                    labels = {"ล้ง/ร้าน": "ร้าน / ผู้รับเงิน", "หมายเหตุ": "รายละเอียด"}
+                else:
+                    cols = ["วันที่", "ประเภท", "หมวด", "จำนวนเงิน", "กก.", "บาท/กก.", "เทียบตลาด", "ล้ง/ร้าน", "หมายเหตุ"]
+                    labels = {}
 
                 def fmt(pattern):      # ช่องว่างแสดงเป็น "–" แทนคำว่า None
                     return lambda v: "–" if v is None or pd.isna(v) or v == "" else pattern.format(v)
@@ -1231,18 +1343,25 @@ with tab_book:
                 table["เทียบตลาด"] = table["เทียบตลาด"].map(fmt("{:+.1f}%"))
                 table["ล้ง/ร้าน"] = table["ล้ง/ร้าน"].fillna("")
                 table["หมายเหตุ"] = table["หมายเหตุ"].fillna("")
-                st.dataframe(
-                    table[cols], hide_index=True, width="stretch", height=min(430, 40 + 35 * max(len(table), 1)),
-                    column_config={
-                        "จำนวนเงิน": st.column_config.NumberColumn("จำนวนเงิน (บาท)", format="localized"),
-                        "เทียบตลาด": st.column_config.TextColumn(
-                            "เทียบตลาด กทม.",
-                            help="ราคาต่อกก.ที่ขายได้ เทียบราคาขายส่งหมอนทอง กทม. สัปดาห์เดียวกัน "
-                                 "(ราคาหน้าล้งแยกเกรด อาจต่างจากราคาตลาดได้มาก ใช้ดูเป็นแนวทาง)"),
-                    })
+                out = table[cols].rename(columns=labels)
+                if out.empty:
+                    st.markdown(f'<div class="empty">{icon("filter_alt_off")}ไม่มีรายการในช่วงหรือหมวดที่เลือก</div>',
+                                unsafe_allow_html=True)
+                else:
+                    st.dataframe(
+                        out, hide_index=True, width="stretch", height=min(430, 40 + 35 * max(len(out), 1)),
+                        column_config={
+                            "จำนวนเงิน": st.column_config.NumberColumn(
+                                "จำนวนเงิน (บาท)" if mode != "cost" else "จ่าย (บาท)", format="localized"),
+                            "เทียบตลาด": st.column_config.TextColumn(
+                                "เทียบตลาด กทม.",
+                                help="ราคาต่อกก.ที่ขายได้ เทียบราคาขายส่งหมอนทอง กทม. สัปดาห์เดียวกัน "
+                                     "(ราคาหน้าล้งแยกเกรด อาจต่างจากราคาตลาดได้มาก ใช้ดูเป็นแนวทาง)"),
+                        })
                 d1, d2 = st.columns(2)
-                csv = table[cols].to_csv(index=False).encode("utf-8-sig")   # utf-8-sig ให้ Excel อ่านไทยได้
-                d1.download_button("ดาวน์โหลด Excel (CSV)", csv, icon=":material/download:", file_name=f"บัญชีสวน_{date.today()}.csv",
+                csv = out.to_csv(index=False).encode("utf-8-sig")   # utf-8-sig ให้ Excel อ่านไทยได้
+                fname = f"บัญชีสวน_{cat_pick or (flt if flt not in (None, 'ทั้งหมด') else 'ทั้งหมด')}_{date.today()}.csv"
+                d1.download_button("ดาวน์โหลด Excel (CSV)", csv, icon=":material/download:", file_name=fname,
                                    mime="text/csv", width="stretch")
                 with d2.popover("ลบรายการ", icon=":material/delete:", width="stretch"):
                     labels = {r["id"]: f"{th_date(r['date'])} · {r['type']} · {r['category']} · {baht(r['amount'])}"

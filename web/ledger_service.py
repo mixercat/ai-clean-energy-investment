@@ -1,7 +1,11 @@
 """สมุดบัญชีสวน: เก็บรายรับ-รายจ่ายของผู้ใช้แต่ละคน
 - ถ้าเชื่อม Firestore ได้ -> users/{uid}/transactions/{id} (ข้อมูลอยู่ถาวร)
 - ถ้ายังไม่เชื่อม -> เก็บใน session ชั่วคราว (หายเมื่อปิดเว็บ)
+- ไฟล์แนบ (รูปใบชั่ง/บิล ฯลฯ) เก็บใน Firestore: users/{uid}/files/{id} (ย่อรูปก่อน) -> image_path = "fs:<id>:<นามสกุล>"
+  (Streamlit Cloud ล้างดิสก์ทุกครั้งที่รีสตาร์ต จึงเก็บไฟล์บนเครื่องเซิร์ฟเวอร์ไม่ได้)
 """
+import base64
+import io
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -10,6 +14,9 @@ import pandas as pd
 import streamlit as st
 
 UPLOAD_ROOT = Path("uploads")
+FS_PREFIX = "fs:"
+MAX_FILE_B64 = 900_000        # เอกสาร Firestore จำกัด 1 MB ต่อชิ้น
+EDITABLE = ["date", "type", "category", "amount", "party", "weight_kg", "note"]
 INCOME, EXPENSE = "รายรับ", "รายจ่าย"
 INCOME_CATS = ["ขายทุเรียน", "อื่น ๆ"]
 EXPENSE_CATS = ["ปุ๋ย", "ยา/สารเคมี", "ค่าแรง", "อุปกรณ์", "ขนส่ง", "น้ำ/ไฟ", "อื่น ๆ"]
@@ -87,6 +94,25 @@ class LedgerService:
             store.extend({**e, "id": uuid.uuid4().hex[:10]} for e in clean)
         return len(clean)
 
+    def update(self, tid, changes):
+        """แก้ไขรายการ (เฉพาะช่องใน EDITABLE)"""
+        changes = {k: v for k, v in changes.items() if k in EDITABLE}
+        if "date" in changes:
+            changes["date"] = pd.to_datetime(changes["date"]).strftime("%Y-%m-%d")
+        if "amount" in changes:
+            changes["amount"] = float(changes["amount"] or 0)
+        if "weight_kg" in changes and (changes["weight_kg"] is None or pd.isna(changes["weight_kg"])
+                                       or not changes["weight_kg"]):
+            changes["weight_kg"] = None
+        changes["updated_at"] = datetime.now().isoformat(timespec="seconds")
+        if self.persistent:
+            from firebase_auth import fs_call
+            fs_call(lambda: self._col().document(tid).set(changes, merge=True))
+        else:
+            for t in st.session_state.get(self._key, []):
+                if t["id"] == tid:
+                    t.update(changes)
+
     def delete(self, tid, image_path=None):
         if self.persistent:
             from firebase_auth import fs_call
@@ -95,20 +121,119 @@ class LedgerService:
             st.session_state[self._key] = [t for t in st.session_state.get(self._key, [])
                                            if t["id"] != tid]
         # รายการที่ไม่มีรูปจะได้ค่าว่าง/NaN จากตาราง -> ข้าม (เดิมทำให้ลบแล้วเกิด TypeError)
-        if isinstance(image_path, str) and image_path and Path(image_path).exists():
+        if isinstance(image_path, str) and image_path.startswith(FS_PREFIX):
+            self._delete_file(image_path)
+        elif isinstance(image_path, str) and image_path and Path(image_path).exists():
             try:
                 Path(image_path).unlink()
             except OSError:
                 pass
 
     # ------------------------------------------------------------------ ไฟล์แนบ (รูป / PDF / Word / Excel)
+    def _files(self):
+        return self.db.collection("users").document(self.uid).collection("files")
+
+    @staticmethod
+    def _shrink(data, name):
+        """ย่อรูปให้ยาวสุด 1600 px แล้วบีบอัด -> (bytes, นามสกุล) ไฟล์อื่นคืนตามเดิม"""
+        ext = Path(name).suffix.lower()
+        if ext not in (".jpg", ".jpeg", ".png", ".webp"):
+            return data, ext
+        try:
+            from PIL import Image
+            img = Image.open(io.BytesIO(data))
+            img = img.convert("RGB")
+            img.thumbnail((1600, 1600))
+            for fmt, out_ext, kw in (("JPEG", ".jpg", {"quality": 72, "optimize": True}),
+                                     ("WEBP", ".webp", {"quality": 72}), ("PNG", ".png", {"optimize": True})):
+                try:
+                    buf = io.BytesIO()
+                    img.save(buf, format=fmt, **kw)
+                    return buf.getvalue(), out_ext
+                except (KeyError, OSError):
+                    continue
+        except Exception:   # noqa: BLE001  เปิดรูปไม่ได้ -> เก็บไฟล์เดิม
+            pass
+        return data, ext
+
     def save_image(self, uploaded_file):
+        """บันทึกไฟล์แนบ -> path สำหรับเก็บในรายการ (Firestore: "fs:<id>:<ext>", ไม่มี Firestore: ไฟล์ในเครื่อง)"""
+        raw = bytes(uploaded_file.getbuffer())
+        if self.persistent:
+            data, ext = self._shrink(raw, uploaded_file.name)
+            b64 = base64.b64encode(data).decode()
+            if len(b64) <= MAX_FILE_B64:
+                fid = uuid.uuid4().hex[:16]
+                try:
+                    from firebase_auth import fs_call
+                    fs_call(lambda: self._files().document(fid).set({
+                        "name": uploaded_file.name, "ext": ext, "data": b64,
+                        "created_at": datetime.now().isoformat(timespec="seconds")}), 20)
+                    return f"{FS_PREFIX}{fid}:{ext}"
+                except Exception as e:   # noqa: BLE001
+                    print(f"[ledger] เก็บไฟล์ใน Firestore ไม่ได้ ใช้ไฟล์ในเครื่องแทน: {e!r}")
+            else:
+                print(f"[ledger] ไฟล์ {uploaded_file.name} ใหญ่เกินเก็บใน Firestore ({len(b64):,} ตัวอักษร)")
         folder = UPLOAD_ROOT / self.uid
         folder.mkdir(parents=True, exist_ok=True)
         name = f"{datetime.now():%Y%m%d_%H%M%S}_{uuid.uuid4().hex[:6]}{Path(uploaded_file.name).suffix}"
         path = folder / name
-        path.write_bytes(uploaded_file.getbuffer())
+        path.write_bytes(raw)
         return str(path)
+
+    @staticmethod
+    def file_available(path):
+        return isinstance(path, str) and bool(path) and (path.startswith(FS_PREFIX) or Path(path).exists())
+
+    def load_file(self, path):
+        """-> (bytes, ชื่อไฟล์) หรือ (None, None) ถ้าไม่มีแล้ว (จำไว้ใน session ไม่โหลดซ้ำ)"""
+        if not isinstance(path, str) or not path:
+            return None, None
+        if not path.startswith(FS_PREFIX):
+            p = Path(path)
+            return (p.read_bytes(), p.name) if p.exists() else (None, None)
+        cache = st.session_state.setdefault(f"ledger_files_{self.uid}", {})
+        if path not in cache:
+            fid, ext = path[len(FS_PREFIX):].split(":", 1) if ":" in path[len(FS_PREFIX):] else (path[3:], "")
+            cache[path] = (None, None)
+            if self.persistent:
+                try:
+                    from firebase_auth import fs_call
+                    snap = fs_call(lambda: self._files().document(fid).get())
+                    if snap.exists:
+                        d = snap.to_dict()
+                        stem = Path(d.get("name") or f"file{ext}").stem
+                        cache[path] = (base64.b64decode(d["data"]), f"{stem}{d.get('ext') or ext}")
+                except Exception as e:   # noqa: BLE001
+                    print(f"[ledger] อ่านไฟล์แนบไม่ได้: {e!r}")
+                    cache.pop(path, None)
+        return cache.get(path, (None, None))
+
+    def _delete_file(self, path):
+        fid = path[len(FS_PREFIX):].split(":", 1)[0]
+        st.session_state.get(f"ledger_files_{self.uid}", {}).pop(path, None)
+        if self.persistent:
+            try:
+                from firebase_auth import fs_call
+                fs_call(lambda: self._files().document(fid).delete())
+            except Exception as e:   # noqa: BLE001
+                print(f"[ledger] ลบไฟล์แนบไม่ได้: {e!r}")
+
+    # ------------------------------------------------------------------ ฤดูกาล
+    @staticmethod
+    def season_of(dates, start_month=1):
+        """ปี ค.ศ. ของ "ฤดู" ที่แต่ละวันอยู่ (ฤดูเริ่มเดือน start_month; ฤดู S จบในปี S)
+        เช่น เริ่ม ก.ย.: ก.ย. 2025 - ส.ค. 2026 = ฤดู 2026 (พ.ศ. 2569)"""
+        d = pd.to_datetime(pd.Series(dates), errors="coerce")
+        start_month = int(start_month or 1)
+        return (d.dt.year + (d.dt.month >= start_month).astype(int) * (1 if start_month > 1 else 0)).astype("Int64")
+
+    @staticmethod
+    def season_range(season, start_month=1):
+        """(วันแรก, วันสุดท้าย) ของฤดู (ปี ค.ศ.)"""
+        start_month = int(start_month or 1)
+        first = pd.Timestamp(year=season - (1 if start_month > 1 else 0), month=start_month, day=1)
+        return first, first + pd.DateOffset(years=1) - pd.Timedelta(days=1)
 
     # ------------------------------------------------------------------ สรุป
     @staticmethod

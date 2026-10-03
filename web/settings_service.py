@@ -19,7 +19,7 @@ PROVINCES = {
 DEFAULT_PROVINCE = "จันทบุรี"
 VARIETIES = ["หมอนทอง", "ชะนี", "หมอนทองและชะนี"]
 # ข้อมูลสวน (0 = ยังไม่ได้กรอก) ใช้คำนวณต้นทุน/ผลผลิตต่อไร่และต่อต้นให้ผู้ช่วย AI
-DEFAULT_PROFILE = {"rai": 0.0, "trees": 0, "tree_age": 0, "variety": "หมอนทอง"}
+DEFAULT_PROFILE = {"rai": 0.0, "trees": 0, "tree_age": 0, "variety": "หมอนทอง", "season_start": 1}
 
 
 def profile_text(profile, summary, farm_name="สวน"):

@@ -17,6 +17,9 @@ import streamlit as st
 from fs_rest import SERVER_TIMESTAMP, RestFirestore
 
 AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:{}?key={}"
+TOKEN_URL = "https://securetoken.googleapis.com/v1/token?key={}"
+RT_COOKIE = "durianos_rt"          # จำการเข้าสู่ระบบ (refresh token ของ Firebase) ไว้ในเบราว์เซอร์
+RT_DAYS = 30
 DEFAULT_FARM = "สวนของฉัน"
 
 ERRORS_TH = {
@@ -198,7 +201,54 @@ class FirebaseAuthService:
                 except Exception as e:   # noqa: BLE001
                     _db_error(e)
         return {"uid": uid, "email": d["email"], "farm_name": farm_name,
-                "id_token": d["idToken"]}
+                "id_token": d["idToken"], "refresh_token": d.get("refreshToken")}
+
+    # ------------------------------------------------------------------ จำการเข้าสู่ระบบ (รีเฟรชหน้าแล้วไม่ต้อง login ใหม่)
+    def restore_session(self):
+        """ลองเข้าสู่ระบบอัตโนมัติจาก cookie (ทำครั้งเดียวต่อ session) -> True ถ้าสำเร็จ"""
+        if st.session_state.get("user") or st.session_state.get("_auto_tried"):
+            return False
+        st.session_state["_auto_tried"] = True
+        try:
+            rt = st.context.cookies.get(RT_COOKIE)
+        except Exception:   # noqa: BLE001  Streamlit รุ่นเก่า / ไม่มี context
+            rt = None
+        api_key = firebase_api_key()
+        if not rt or not api_key:
+            return False
+        try:
+            r = requests.post(TOKEN_URL.format(api_key), timeout=10,
+                              data={"grant_type": "refresh_token", "refresh_token": rt})
+            if r.status_code != 200:      # token หมดอายุ / เปลี่ยนรหัสผ่าน / บัญชีถูกลบ -> ล้าง cookie
+                print(f"[firebase] จำการเข้าสู่ระบบไม่ได้: {r.text[:120]}")
+                st.session_state["_clear_rt"] = True
+                return False
+            tok = r.json()
+            info = _auth_request("lookup", {"idToken": tok["id_token"]})["users"][0]
+            user = self._make_user({"localId": tok["user_id"], "email": info.get("email", ""),
+                                    "idToken": tok["id_token"],
+                                    "refreshToken": tok.get("refresh_token") or rt})
+        except Exception as e:   # noqa: BLE001  เน็ตมีปัญหา -> ให้ login ตามปกติ
+            print(f"[firebase] จำการเข้าสู่ระบบไม่ได้: {e!r}")
+            return False
+        st.session_state.user = user
+        if user.get("refresh_token") and user["refresh_token"] != rt:
+            st.session_state["_set_rt"] = user["refresh_token"]
+        return True
+
+    @staticmethod
+    def render_cookie_ops():
+        """เขียน/ล้าง cookie จำการเข้าสู่ระบบในเบราว์เซอร์ (ต้องเรียกทุกหน้า ทั้งหน้า login และหน้าหลัก)"""
+        js = None
+        if st.session_state.pop("_clear_rt", False):
+            js = f"document.cookie='{RT_COOKIE}=; Max-Age=0; path=/; SameSite=Lax';"
+        rt = st.session_state.pop("_set_rt", None)
+        if rt:
+            safe = "".join(ch for ch in rt if ch.isalnum() or ch in "-_.")
+            js = (f"document.cookie='{RT_COOKIE}={safe}; Max-Age={RT_DAYS * 86400}; path=/; SameSite=Lax'"
+                  "+(location.protocol==='https:'?'; Secure':'');")
+        if js:
+            st.html(f"<script>{js}</script>", unsafe_allow_javascript=True)
 
     # ------------------------------------------------------------------ หน้าจอ
     def render_forms(self):
@@ -310,6 +360,8 @@ class FirebaseAuthService:
     @staticmethod
     def logout():
         st.session_state.user = None
+        st.session_state["_auto_tried"] = True      # ไม่เข้าสู่ระบบอัตโนมัติซ้ำจาก cookie เดิม
+        st.session_state["_clear_rt"] = True
         for k in [k for k in st.session_state if k.startswith(("ledger_", "ocr_", "chat_", "ai_"))]:
             del st.session_state[k]
         st.rerun()
@@ -319,6 +371,8 @@ class FirebaseAuthService:
         try:
             with st.spinner("กำลังตรวจสอบกับ Firebase..."):
                 st.session_state.user = action()
+            if st.session_state.user.get("refresh_token"):
+                st.session_state["_set_rt"] = st.session_state.user["refresh_token"]
             st.rerun()
         except AuthError as e:
             st.error(str(e))

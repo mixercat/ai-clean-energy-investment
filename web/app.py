@@ -665,6 +665,10 @@ def login_background():
 auth = FirebaseAuthService()
 if "user" not in st.session_state:
     st.session_state.user = None
+if not st.session_state.user:
+    with st.spinner("กำลังเข้าสู่ระบบ..."):
+        auth.restore_session()          # รีเฟรชหน้าแล้วเข้าต่อได้เลย (จำไว้ 30 วัน จนกว่าจะออกจากระบบ)
+auth.render_cookie_ops()
 
 if not st.session_state.user:
     st.markdown("<style>[data-testid='stSidebar'],[data-testid='stSidebarCollapsedControl']"
@@ -704,10 +708,38 @@ if not st.session_state.user:
 user = st.session_state.user
 db = auth.db if firestore_ok() else None       # Firestore มีปัญหา -> ใช้โหมดชั่วคราว ไม่ให้ทุกหน้าค้าง
 ledger = LedgerService(db, user["uid"])
-df_tx = ledger.list()
-summary = LedgerService.summary(df_tx)
 settings = SettingsService(db, user["uid"])
 farm = settings.load()
+df_all = ledger.list()                    # ทุกรายการ (ใช้ตรวจรายการซ้ำตอนนำเข้า / รายการล่าสุดในแถบข้าง)
+
+# ---- แยกบัญชีตามฤดู: ทั้งเว็บแสดงเฉพาะฤดูที่เลือก (ค่าเริ่มต้น = ฤดูปัจจุบัน)
+SEASON_START = int((farm.get("profile") or {}).get("season_start") or 1)
+SEASON_ALL = "ทุกฤดู"
+CUR_SEASON = int(LedgerService.season_of([date.today()], SEASON_START).iloc[0])
+_seasons = sorted({CUR_SEASON, *[int(x) for x in LedgerService.season_of(df_all["date"], SEASON_START).dropna()]},
+                  reverse=True)
+SEASON_OPTS = [SEASON_ALL] + _seasons
+if st.session_state.get("season_pick") not in SEASON_OPTS:
+    st.session_state["season_pick"] = CUR_SEASON
+season_pick = st.session_state["season_pick"]
+
+
+def season_label(s):
+    if s == SEASON_ALL:
+        return "ทุกฤดู"
+    a, b = LedgerService.season_range(s, SEASON_START)
+    if SEASON_START == 1:
+        return f"ฤดู {s + 543}"
+    return (f"ฤดู {s + 543} ({THAI_MONTHS[a.month - 1]} {str(a.year + 543)[2:]}–"
+            f"{THAI_MONTHS[b.month - 1]} {str(b.year + 543)[2:]})")
+
+
+if season_pick == SEASON_ALL or df_all.empty:
+    df_tx = df_all
+else:
+    _in = (LedgerService.season_of(df_all["date"], SEASON_START) == season_pick).fillna(False).to_numpy(dtype=bool)
+    df_tx = df_all[_in].reset_index(drop=True)
+summary = LedgerService.summary(df_tx)
 FARM_LAT, FARM_LON, PROVINCE = farm["lat"], farm["lon"], farm["province"]
 user_keys = settings.user_ai_keys()
 if user_keys:
@@ -771,11 +803,11 @@ with st.sidebar:
                 st.rerun()
 
     st.markdown('<div class="side-sec">รายการบัญชีล่าสุด</div>', unsafe_allow_html=True)
-    if df_tx.empty:
+    if df_all.empty:
         st.markdown('<div class="side-empty">ยังไม่มีรายการ</div>', unsafe_allow_html=True)
     else:
         rows = []
-        for _, r in df_tx.head(5).iterrows():
+        for _, r in df_all.head(5).iterrows():
             inc = r["type"] == INCOME
             rows.append(f'<div class="side-tx"><span class="sd {"in" if inc else "out"}"></span>'
                         f'<span class="st">{r["category"]}<small>{th_date(r["date"], False)}</small></span>'
@@ -788,14 +820,19 @@ with st.sidebar:
         auth.logout()
 
 # ---------------------------------------------------------------- header + KPI
-h1, h2 = st.columns([3, 1.2], vertical_alignment="center")
+h1, hs, h2 = st.columns([2.6, 1, 1.2], vertical_alignment="center")
+with hs:
+    st.selectbox("ฤดูกาล", SEASON_OPTS, key="season_pick", format_func=season_label, label_visibility="collapsed",
+                 help="แยกบัญชีตามฤดู — ทุกหน้า (ภาพรวม บัญชี ผู้ช่วย AI) แสดงเฉพาะฤดูที่เลือก "
+                      "ตั้งเดือนเริ่มฤดูได้ในแท็บตั้งค่า")
 with h1:
     st.markdown(f'<div class="page-eyebrow">{icon("eco")} {user.get("farm_name", "สวนของฉัน")}</div>'
                 '<div class="page-title">ภาพรวมสวน</div>'
                 f'<div class="page-meta"><span>{icon("location_on")}จังหวัด{PROVINCE}</span>'
                 + (f'<span>{icon("park")}{farm["profile"]["rai"]:,.0f} ไร่ · {farm["profile"]["trees"]:,} ต้น</span>'
                    if farm.get("profile", {}).get("rai") or farm.get("profile", {}).get("trees") else "")
-                + f'<span>{icon("receipt_long")}{summary["count"]} รายการในบัญชี</span></div>',
+                + f'<span>{icon("receipt_long")}{summary["count"]} รายการ'
+                  f'{"" if season_pick == SEASON_ALL else " ในฤดูนี้"}</span></div>',
                 unsafe_allow_html=True)
 with h2:
     theme_toggle(f'<span class="date-chip">{icon("calendar_today")}'
@@ -1142,7 +1179,7 @@ with tab_book:
                              + (f" (ข้าม: {', '.join(f'{k} {v} แถว' for k, v in skipped.items())})" if skipped else ""),
                              "gold")
                     else:
-                        dup = mark_duplicates(entries, df_tx)
+                        dup = mark_duplicates(entries, df_all)
                         es = LedgerService.summary(entries)
                         stats_row([("พร้อมนำเข้า", f"{len(entries)} รายการ"), ("รายรับ", baht(es["income"])),
                                    ("รายจ่าย", baht(es["expense"])),
@@ -1431,14 +1468,49 @@ with tab_book:
                                 help="ราคาต่อกก.ที่ขายได้ เทียบราคาขายส่งหมอนทอง กทม. สัปดาห์เดียวกัน "
                                      "(ราคาหน้าล้งแยกเกรด อาจต่างจากราคาตลาดได้มาก ใช้ดูเป็นแนวทาง)"),
                         })
-                d1, d2 = st.columns(2)
+                d1, d3, d2 = st.columns(3)
                 csv = out.to_csv(index=False).encode("utf-8-sig")   # utf-8-sig ให้ Excel อ่านไทยได้
                 fname = f"บัญชีสวน_{cat_pick or (flt if flt not in (None, 'ทั้งหมด') else 'ทั้งหมด')}_{date.today()}.csv"
-                d1.download_button("ดาวน์โหลด Excel (CSV)", csv, icon=":material/download:", file_name=fname,
+                d1.download_button("ดาวน์โหลด CSV", csv, icon=":material/download:", file_name=fname,
                                    mime="text/csv", width="stretch")
+                labels = {r["id"]: f"{th_date(r['date'])} · {r['type']} · {r['category']} · {baht(r['amount'])}"
+                          for _, r in df_tx.iterrows()}
+                with d3.popover("แก้ไขรายการ", icon=":material/edit:", width="stretch"):
+                    # รายการที่อยู่ในตารางตอนนี้ขึ้นก่อน ตามด้วยรายการอื่น
+                    order = list(dict.fromkeys(list(view["id"]) + list(labels)))
+                    edit_id = st.selectbox("เลือกรายการที่จะแก้ไข", order, format_func=labels.get, key="edit_pick")
+                    er = df_tx[df_tx["id"] == edit_id].iloc[0]
+                    with st.form(f"edit_form_{edit_id}", border=False):
+                        e1, e2 = st.columns(2)
+                        e_date = e1.date_input("วันที่", er["date"].date() if pd.notna(er["date"]) else date.today(),
+                                               format="DD/MM/YYYY")
+                        e_type = e2.selectbox("ประเภท", [INCOME, EXPENSE], index=0 if er["type"] == INCOME else 1)
+                        cats = list(dict.fromkeys(INCOME_CATS + EXPENSE_CATS))
+                        e_cat = e1.selectbox("หมวด", cats, index=cats.index(er["category"]) if er["category"] in cats
+                                             else cats.index("อื่น ๆ"))
+                        e_amt = e2.number_input("จำนวนเงิน (บาท)", min_value=0.0, step=100.0,
+                                                value=float(er["amount"] or 0))
+                        wkg = er["weight_kg"]
+                        e_kg = e1.number_input("น้ำหนัก (กก.) ถ้ามี", min_value=0.0, step=10.0,
+                                               value=float(wkg) if pd.notna(wkg) else 0.0)
+                        e_party = e2.text_input("ล้ง / ร้าน", er["party"] or "")
+                        e_note = st.text_input("หมายเหตุ", er["note"] or "")
+                        if st.form_submit_button("บันทึกการแก้ไข", type="primary", width="stretch"):
+                            if e_type == INCOME and e_cat not in INCOME_CATS:
+                                st.error(f"หมวด “{e_cat}” เป็นหมวดรายจ่าย — เลือกหมวดให้ตรงกับประเภท")
+                            elif e_type == EXPENSE and e_cat not in EXPENSE_CATS:
+                                st.error(f"หมวด “{e_cat}” เป็นหมวดรายรับ — เลือกหมวดให้ตรงกับประเภท")
+                            else:
+                                try:
+                                    ledger.update(edit_id, {
+                                        "date": e_date, "type": e_type, "category": e_cat, "amount": e_amt,
+                                        "weight_kg": e_kg or None, "party": e_party.strip(),
+                                        "note": e_note.strip()})
+                                    st.toast("แก้ไขแล้ว", icon=":material/check:")
+                                    st.rerun()
+                                except Exception as e:   # noqa: BLE001
+                                    st.error(f"แก้ไขไม่สำเร็จ: {str(e)[:150]} — ลองใหม่อีกครั้ง")
                 with d2.popover("ลบรายการ", icon=":material/delete:", width="stretch"):
-                    labels = {r["id"]: f"{th_date(r['date'])} · {r['type']} · {r['category']} · {baht(r['amount'])}"
-                              for _, r in df_tx.iterrows()}
                     del_id = st.selectbox("เลือกรายการที่จะลบ", list(labels), format_func=labels.get)
                     if st.button("ยืนยันลบ", width="stretch"):
                         row = df_tx[df_tx["id"] == del_id].iloc[0]
@@ -1496,29 +1568,32 @@ with tab_book:
                 if st.session_state.get("ai_summary"):
                     st.markdown(st.session_state.ai_summary)
 
-    # -------------------------------------------------- คลังรูป
-    imgs = df_tx[df_tx["image_path"].notna()] if not df_tx.empty else df_tx
-    imgs = imgs[[isinstance(p, str) and bool(p) and os.path.exists(p) for p in imgs["image_path"]]] \
-        if not imgs.empty else imgs
+    # -------------------------------------------------- คลังเอกสาร (รูปใบชั่ง/บิลที่แนบกับรายการ)
+    imgs = df_tx[[LedgerService.file_available(p) for p in df_tx["image_path"]]] if not df_tx.empty else df_tx
     if not imgs.empty:
         st.write("")
         with st.container(key="card-gallery"):
             n_img = sum(is_image_path(p) for p in imgs["image_path"])
-            card_header("เอกสารที่บันทึกไว้", f"รูป {n_img} ไฟล์ · เอกสารอื่น {len(imgs) - n_img} ไฟล์")
+            card_header("เอกสารที่บันทึกไว้", f"รูป {n_img} ไฟล์ · เอกสารอื่น {len(imgs) - n_img} ไฟล์"
+                        + (" · แสดง 12 รายการล่าสุด" if len(imgs) > 12 else ""))
             cols = st.columns(4)
             icons = {".pdf": "picture_as_pdf", ".docx": "description", ".xlsx": "table_view", ".csv": "table_view"}
-            for i, (_, r) in enumerate(imgs.iterrows()):
+            for i, (_, r) in enumerate(imgs.head(12).iterrows()):
                 with cols[i % 4]:
                     path = r["image_path"]
-                    if is_image_path(path):
-                        st.image(path, width="stretch")
+                    data, fname = ledger.load_file(path)
+                    ext = os.path.splitext(fname or path)[1].lower()
+                    if data is None:
+                        st.markdown(f'<div class="doc-tile">{icon("broken_image")}<div>ไฟล์หาย</div></div>',
+                                    unsafe_allow_html=True)
+                    elif is_image_path(path):
+                        st.image(data, width="stretch")
                     else:
-                        ext = os.path.splitext(path)[1].lower()
                         st.markdown(f'<div class="doc-tile">{icon(icons.get(ext, "attach_file"))}'
                                     f'<div>{ext[1:].upper()}</div></div>', unsafe_allow_html=True)
-                        with open(path, "rb") as fh:
-                            st.download_button("เปิดไฟล์", fh.read(), icon=":material/open_in_new:", file_name=os.path.basename(path),
-                                               key=f"dl_{r['id']}", width="stretch")
+                    if data is not None:
+                        st.download_button("ดาวน์โหลด", data, icon=":material/download:", file_name=fname,
+                                           key=f"dl_{r['id']}", width="stretch")
                     color = C_GREEN if r["type"] == INCOME else C_RED
                     st.markdown(f'<div style="font-size:.82rem;margin:-4px 0 14px">{th_date(r["date"])} · '
                                 f'<span style="color:{color};font-weight:600">{baht(r["amount"])}</span><br>'
@@ -1829,6 +1904,7 @@ with tab_ai:
             prev_q = next((m["content"] for m in reversed(history[:-1]) if m["role"] == "user"), "")
             kb = knowledge_text(q) or knowledge_text(prev_q + " " + q)     # คำถามต่อเนื่องใช้หัวข้อเดิม
             context = (f"วันนี้: {date.today().isoformat()} · สวนอยู่จังหวัด{PROVINCE}\n"
+                       f"ข้อมูลบัญชีด้านล่างเป็นของ: {season_label(season_pick)}\n"
                        f"{LedgerService.context_text(df_tx, user.get('farm_name', 'สวนของผู้ใช้'))}\n"
                        f"{profile_text(farm.get('profile'), summary, user.get('farm_name', ''))}\n\n"
                        f"{fctx}\n{fx_ctx}\n\n{kb}\n\nบทสนทนาก่อนหน้า:\n{recent or '-'}")
@@ -1872,11 +1948,16 @@ with tab_set:
             f_age = p3.number_input("อายุต้นโดยประมาณ (ปี)", min_value=0, value=int(prof.get("tree_age") or 0), step=1)
             vlist = VARIETIES
             f_var = p4.selectbox("พันธุ์หลัก", vlist, index=vlist.index(prof.get("variety")) if prof.get("variety") in vlist else 0)
+            f_ss = st.selectbox("เดือนเริ่มฤดู (ใช้แยกบัญชีตามฤดู)", list(range(1, 13)),
+                                index=int(prof.get("season_start") or 1) - 1,
+                                format_func=lambda m: THAI_MONTHS[m - 1] + (" (ตามปีปฏิทิน)" if m == 1 else ""),
+                                help="ฤดูนับเป็นปีที่เก็บเกี่ยว เช่น เริ่ม ก.ย. -> ก.ย. 68 ถึง ส.ค. 69 = ฤดู 2569 "
+                                     "(สวนภาคตะวันออกมักเริ่มบำรุงต้นใหม่หลังเก็บเกี่ยวช่วง ส.ค.–ก.ย.)")
             if st.form_submit_button("บันทึกข้อมูลสวน", icon=":material/save:", type="primary", width="stretch"):
                 lat, lon = (f_lat, f_lon) if f_prov == "กำหนดพิกัดเอง" else PROVINCES[f_prov]
                 settings.save_farm(f_name.strip() or "สวนของฉัน", f_prov, lat, lon,
                                    profile={"rai": float(f_rai), "trees": int(f_trees), "tree_age": int(f_age),
-                                            "variety": f_var})
+                                            "variety": f_var, "season_start": int(f_ss)})
                 st.session_state.user = {**user, "farm_name": f_name.strip() or "สวนของฉัน"}
                 st.toast("บันทึกข้อมูลสวนแล้ว", icon=":material/check_circle:")
                 st.rerun()

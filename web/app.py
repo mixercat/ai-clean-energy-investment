@@ -33,7 +33,7 @@ def _load_cloud_secrets():
 _load_cloud_secrets()
 
 st.set_page_config(page_title="DurianOS | สมุดบัญชีสวนทุเรียน", page_icon=":material/eco:", layout="wide",
-                   initial_sidebar_state="expanded")
+                   initial_sidebar_state="auto")
 
 from firebase_auth import FirebaseAuthService, firestore_ok          # noqa: E402  (ต้อง import หลัง set_page_config)
 from forecast_service import ForecastService           # noqa: E402
